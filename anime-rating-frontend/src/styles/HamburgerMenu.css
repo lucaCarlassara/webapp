@@ -1,0 +1,56 @@
+.hamburger-menu {
+    position: relative;
+    display: inline-block;
+}
+
+/* Pulsante menu */
+.menu-button {
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #333;
+}
+
+/* Contenuto del menu */
+.menu-content {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    width: 200px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    animation: slide-in 0.3s forwards;
+}
+
+/* Lista menu */
+.menu-content ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu-content ul li {
+    padding: 10px;
+    cursor: pointer;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.menu-content ul li:hover {
+    background-color: #f4f4f4;
+}
+
+/* Animazione sliding */
+@keyframes slide-in {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

@@ -1,24 +1,32 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/PersonalArea.css";
+import HamburgerMenu from "./HamburgerMenu";
+import { AuthContext } from "../AuthContext";
 
 function PersonalArea() {
-    const [selectedTab, setSelectedTab] = useState("voted"); // Tab selezionato: "voted" o "toVote"
+    const [selectedTab, setSelectedTab] = useState("voted"); // Tab selezionato
+    const { isAuthenticated } = useContext(AuthContext);
+    const navigate = useNavigate();
 
-    // Funzione per gestire il cambio di tab
+    // Funzione per cambiare tab
     const handleTabChange = (tab) => {
         setSelectedTab(tab);
     };
 
+    // Controlla se l'utente è autenticato
+    if (!isAuthenticated) {
+        alert("Devi autenticarti prima di accedere all'area personale!");
+        navigate("/auth");
+        return null;
+    }
+
     return (
         <div className="personal-area-container">
-            {/* Header */}
+            {/* Header con Hamburger Menu */}
             <div className="header">
-                <button className="menu-button">&#9776;</button>
+                <HamburgerMenu />
                 <h1 className="title">Area Personale</h1>
-                <Link to="/home" className="home-link">
-                    Home
-                </Link>
             </div>
 
             {/* Bottoni per cambiare tab */}
@@ -39,15 +47,16 @@ function PersonalArea() {
 
             {/* Contenuto basato sul tab selezionato */}
             <div className="content-container">
-                {/* Contenuto Anime Votati */}
-                <div className={`content ${selectedTab === "voted" ? "slide-in" : "hidden"}`}>
-                    <p>Lista anime votati</p>
-                </div>
-
-                {/* Contenuto Vota un Anime */}
-                <div className={`content ${selectedTab === "toVote" ? "slide-in" : "hidden"}`}>
-                    <p>Lista anime da votare</p>
-                </div>
+                {selectedTab === "voted" && (
+                    <div className="content slide-in">
+                        <p>Lista anime votati</p>
+                    </div>
+                )}
+                {selectedTab === "toVote" && (
+                    <div className="content slide-in">
+                        <p>Lista anime da votare</p>
+                    </div>
+                )}
             </div>
         </div>
     );

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/AuthPage.css";
 import axios from "axios";
 import { AuthContext } from "../AuthContext";
+import HamburgerMenu from "./HamburgerMenu";
 
 function AuthPage() {
     const [loginUsername, setLoginUsername] = useState("");
@@ -54,6 +55,12 @@ function AuthPage() {
 
     return (
         <div className="auth-container">
+            {/* Header con Hamburger Menu */}
+            <div className="header">
+                <HamburgerMenu />
+                <h1 className="title">Login / Registrazione</h1>
+            </div>
+
             {/* Login Form */}
             <form className="auth-form" onSubmit={handleLogin}>
                 <h2>Login</h2>

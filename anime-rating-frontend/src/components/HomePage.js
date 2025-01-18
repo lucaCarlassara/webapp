@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import "../styles/HomePage.css";
+import HamburgerMenu from "./HamburgerMenu";
 import { AuthContext } from "../AuthContext";
 
 function HomePage() {
@@ -10,7 +11,7 @@ function HomePage() {
         <div className="container">
             {/* Header */}
             <div className="header">
-                <button className="menu-button">&#9776;</button>
+                <HamburgerMenu />
                 <h1 className="title">Home Page</h1>
                 {isAuthenticated ? (
                     <button onClick={logout} className="logout-button">
@@ -23,6 +24,7 @@ function HomePage() {
                 )}
             </div>
 
+            
         </div>
     );
 }
