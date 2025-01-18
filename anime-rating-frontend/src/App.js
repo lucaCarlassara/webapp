@@ -11,7 +11,7 @@ function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<HomePage />} />
+                <Route path="/home" element={<HomePage />} />
                 <Route path="/login" element={<Login setToken={setToken} />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/personal-area" element={<PersonalArea />} />

@@ -1,12 +1,23 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
+import "../styles/HomePage.css";
 
 function HomePage() {
     return (
-        <div>
-            <h1>Welcome to Anime Rating</h1>
-            <Link to="/login"><button>Login</button></Link>
-            <Link to="/register"><button>Register</button></Link>
+        <div className="container">
+            {/* Header */}
+            <div className="header">
+                <button className="menu-button">&#9776;</button>
+                <h1 className="title">Home Page</h1>
+                <Link to="/login" className="login-link">
+                    Accedi
+                </Link>
+            </div>
+
+            {/* Content */}
+            <div className="content">
+                <p>questa è la home</p>
+            </div>
         </div>
     );
 }

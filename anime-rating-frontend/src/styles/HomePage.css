@@ -1,0 +1,54 @@
+/* Stile generale per il contenitore */
+.container {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Stile per l'intestazione */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ccc;
+    height: 50px;
+}
+
+/* Pulsante del menu laterale */
+.menu-button {
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Titolo della pagina */
+.title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: normal;
+}
+
+/* Link "Accedi" */
+.login-link {
+    text-decoration: none;
+    font-size: 16px;
+    color: #007BFF;
+    font-weight: bold;
+}
+
+/* Contenuto principale */
+.content {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    color: #333;
+}
+
