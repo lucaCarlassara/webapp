@@ -9,7 +9,7 @@ function HomePage() {
             <div className="header">
                 <button className="menu-button">&#9776;</button>
                 <h1 className="title">Home Page</h1>
-                <Link to="/login" className="login-link">
+                <Link to="/auth" className="login-link">
                     Accedi
                 </Link>
             </div>
@@ -23,3 +23,4 @@ function HomePage() {
 }
 
 export default HomePage;
+
