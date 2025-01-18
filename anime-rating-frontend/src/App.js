@@ -1,15 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import HomePage from "./components/HomePage";
 import AuthPage from "./components/AuthPage";
 import PersonalArea from "./components/PersonalArea";
 
 function App() {
-    useEffect(() => {
-        // Rimuovi il token al caricamento dell'app
-        localStorage.removeItem("token");
-    }, []);
-
     return (
         <Router>
             <Routes>
@@ -23,3 +18,4 @@ function App() {
 }
 
 export default App;
+
