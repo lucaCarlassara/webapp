@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/AuthPage.css";
 import axios from "axios";
+import { AuthContext } from "../AuthContext";
 
 function AuthPage() {
     const [loginUsername, setLoginUsername] = useState("");
@@ -10,60 +11,46 @@ function AuthPage() {
     const [signupPassword, setSignupPassword] = useState("");
     const [signupRepeatPassword, setSignupRepeatPassword] = useState("");
 
+    const { login } = useContext(AuthContext);
     const navigate = useNavigate();
 
-    // Gestione del login
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            // Richiesta al backend per ottenere il token JWT
             const response = await axios.post("http://127.0.0.1:8000/api/token/", {
                 username: loginUsername,
                 password: loginPassword,
             });
-
-            // Salva il token JWT nel localStorage
-            localStorage.setItem("token", response.data.access);
-
+            login(response.data.access); // Salva il token nel contesto
             alert("Login effettuato con successo!");
-            navigate("/personal-area"); // Reindirizza all'area personale
+            navigate("/personal-area");
         } catch (error) {
             alert("Login fallito! Controlla username e password.");
         }
     };
 
-    // Gestione della registrazione
     const handleSignup = async (e) => {
         e.preventDefault();
-    
         if (signupPassword !== signupRepeatPassword) {
             alert("Le password non corrispondono!");
             return;
         }
-    
         try {
-            // Richiesta per registrare un nuovo utente
             await axios.post("http://127.0.0.1:8000/api/register/", {
                 username: signupUsername,
                 password: signupPassword,
             });
-    
-            // Richiesta per ottenere il token JWT dopo la registrazione
             const response = await axios.post("http://127.0.0.1:8000/api/token/", {
                 username: signupUsername,
                 password: signupPassword,
             });
-    
-            // Salva il token JWT nel localStorage
-            localStorage.setItem("token", response.data.access);
-    
+            login(response.data.access); // Salva il token nel contesto
             alert("Registrazione effettuata con successo!");
-            navigate("/personal-area"); // Reindirizza all'area personale
+            navigate("/personal-area");
         } catch (error) {
             alert("Registrazione fallita! Riprova.");
         }
     };
-    
 
     return (
         <div className="auth-container">
@@ -91,7 +78,6 @@ function AuthPage() {
                 </button>
             </form>
 
-            {/* Divider */}
             <div className="divider">
                 <span>or</span>
             </div>
@@ -117,7 +103,7 @@ function AuthPage() {
                 />
                 <input
                     type="password"
-                    placeholder="Repeat Password"
+                    placeholder="Ripeti password"
                     value={signupRepeatPassword}
                     onChange={(e) => setSignupRepeatPassword(e.target.value)}
                     className="input-field"
