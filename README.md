@@ -7,3 +7,7 @@ far partire il backend:
 far partire il frontend
 - entrare cartella frontend
 - npm start
+
+quando si cambia il database dal backend fare:
+- python manage.py makemigrations
+- python manage.py migrate

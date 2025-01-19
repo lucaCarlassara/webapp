@@ -4,6 +4,7 @@ import HomePage from "./components/HomePage";
 import AuthPage from "./components/AuthPage";
 import PersonalArea from "./components/PersonalArea";
 import { AuthProvider } from "./AuthContext";
+import AttackOnTitan from "./animePages/AttackOnTitan";
 
 function App() {
     useEffect(() => {
@@ -19,6 +20,7 @@ function App() {
                     <Route path="/home" element={<HomePage />} />
                     <Route path="/auth" element={<AuthPage />} />
                     <Route path="/personal-area" element={<PersonalArea />} />
+                    <Route path="/anime/:id" element={<AttackOnTitan />} />
                 </Routes>
             </Router>
         </AuthProvider>

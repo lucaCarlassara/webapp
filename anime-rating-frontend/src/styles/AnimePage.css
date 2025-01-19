@@ -1,0 +1,78 @@
+.anime-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.home-link {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.anime-info {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.anime-image {
+    width: 150px;
+    height: 150px;
+    margin-right: 20px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.anime-details {
+    flex: 1;
+}
+
+.anime-description {
+    margin-bottom: 20px;
+}
+
+.rating-row {
+    margin-bottom: 20px;
+}
+
+.rating-options {
+    display: flex;
+    gap: 5px;
+}
+
+.rating-button {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.rating-button.selected {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #0056b3;
+}
+
+.save-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+}

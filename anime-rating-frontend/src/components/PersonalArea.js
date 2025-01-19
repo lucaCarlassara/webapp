@@ -1,23 +1,35 @@
-import React, { useState, useContext } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/PersonalArea.css";
 import HamburgerMenu from "./HamburgerMenu";
-import { AuthContext } from "../AuthContext";
+import axios from "axios";
 
 function PersonalArea() {
     const [selectedTab, setSelectedTab] = useState("voted");
-    const { isAuthenticated } = useContext(AuthContext);
+    const [animeList, setAnimeList] = useState([]);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (selectedTab === "toVote") {
+            // Interroga l'API per ottenere l'elenco degli anime
+            axios
+                .get("http://127.0.0.1:8000/api/animes/")
+                .then((response) => {
+                    setAnimeList(response.data);
+                })
+                .catch((error) => {
+                    console.error("Errore nel recupero degli anime:", error);
+                });
+        }
+    }, [selectedTab]);
 
     const handleTabChange = (tab) => {
         setSelectedTab(tab);
     };
 
-    if (!isAuthenticated) {
-        alert("Devi autenticarti prima di accedere all'area personale!");
-        navigate("/auth");
-        return null;
-    }
+    const handleAnimeClick = (animeId) => {
+        navigate(`/anime/${animeId}`);
+    };
 
     return (
         <div className="personal-area-container">
@@ -48,14 +60,18 @@ function PersonalArea() {
 
             {/* Contenuto */}
             <div className="content-container">
-                {selectedTab === "voted" && (
-                    <div className="content slide-in">
-                        <p>Lista anime votati</p>
-                    </div>
-                )}
+                {selectedTab === "voted" && <p>Lista anime votati</p>}
                 {selectedTab === "toVote" && (
-                    <div className="content slide-in">
-                        <p>Lista anime da votare</p>
+                    <div className="anime-list">
+                        {animeList.map((anime) => (
+                            <div
+                                key={anime.id}
+                                className="anime-item"
+                                onClick={() => handleAnimeClick(anime.id)}
+                            >
+                                {anime.title}
+                            </div>
+                        ))}
                     </div>
                 )}
             </div>
