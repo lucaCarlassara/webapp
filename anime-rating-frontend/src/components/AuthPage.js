@@ -1,9 +1,9 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "../styles/AuthPage.css";
 import axios from "axios";
 import { AuthContext } from "../AuthContext";
-import HamburgerMenu from "./HamburgerMenu";
+import HamburgerMenu from "./HamburgerMenu"; // Importa HamburgerMenu
 
 function AuthPage() {
     const [loginUsername, setLoginUsername] = useState("");
@@ -22,7 +22,7 @@ function AuthPage() {
                 username: loginUsername,
                 password: loginPassword,
             });
-            login(response.data.access); // Salva il token nel contesto
+            login(response.data.access);
             alert("Login effettuato con successo!");
             navigate("/personal-area");
         } catch (error) {
@@ -45,7 +45,7 @@ function AuthPage() {
                 username: signupUsername,
                 password: signupPassword,
             });
-            login(response.data.access); // Salva il token nel contesto
+            login(response.data.access);
             alert("Registrazione effettuata con successo!");
             navigate("/personal-area");
         } catch (error) {
@@ -59,6 +59,9 @@ function AuthPage() {
             <div className="header">
                 <HamburgerMenu />
                 <h1 className="title">Login / Registrazione</h1>
+                <Link to="/home" className="home-link">
+                    Home
+                </Link>
             </div>
 
             {/* Login Form */}

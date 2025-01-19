@@ -1,20 +1,18 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "../styles/PersonalArea.css";
 import HamburgerMenu from "./HamburgerMenu";
 import { AuthContext } from "../AuthContext";
 
 function PersonalArea() {
-    const [selectedTab, setSelectedTab] = useState("voted"); // Tab selezionato
+    const [selectedTab, setSelectedTab] = useState("voted");
     const { isAuthenticated } = useContext(AuthContext);
     const navigate = useNavigate();
 
-    // Funzione per cambiare tab
     const handleTabChange = (tab) => {
         setSelectedTab(tab);
     };
 
-    // Controlla se l'utente è autenticato
     if (!isAuthenticated) {
         alert("Devi autenticarti prima di accedere all'area personale!");
         navigate("/auth");
@@ -27,6 +25,9 @@ function PersonalArea() {
             <div className="header">
                 <HamburgerMenu />
                 <h1 className="title">Area Personale</h1>
+                <Link to="/home" className="home-link">
+                    Home
+                </Link>
             </div>
 
             {/* Bottoni per cambiare tab */}
@@ -45,7 +46,7 @@ function PersonalArea() {
                 </button>
             </div>
 
-            {/* Contenuto basato sul tab selezionato */}
+            {/* Contenuto */}
             <div className="content-container">
                 {selectedTab === "voted" && (
                     <div className="content slide-in">

@@ -1,71 +1,56 @@
-/* Stile generale per il contenitore */
-.container {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    padding: 0;
-    margin: 0;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-/* Stile per l'intestazione */
+/* Header generale */
 .header {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    border-bottom: 1px solid #ccc;
-    height: 50px;
+    justify-content: space-between; /* Distribuisce gli elementi in modo uniforme */
+    align-items: center; /* Allinea verticalmente gli elementi */
+    padding: 10px 15px; /* Spaziatura interna */
+    border-bottom: 1px solid #ccc; /* Bordo inferiore */
+    background-color: white; /* Colore di sfondo */
+    width: 100%; /* Larghezza completa */
+    box-sizing: border-box; /* Include padding nel calcolo della larghezza */
 }
 
-/* Pulsante del menu laterale */
-.menu-button {
-    font-size: 24px;
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
-/* Titolo della pagina */
+/* Titolo centrato */
 .title {
-    margin: 0;
-    font-size: 20px;
-    font-weight: normal;
-}
-
-/* Link "Accedi" */
-.login-link {
-    text-decoration: none;
-    font-size: 16px;
-    color: #007BFF;
-    font-weight: bold;
-}
-
-/* Contenuto principale */
-.content {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 18px;
-    color: #333;
-}
-
-/* Stile per il pulsante Logout */
-.logout-button {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    font-size: 16px;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
+    font-size: 20px; /* Dimensione del testo */
+    font-weight: bold; /* Testo in grassetto */
     text-align: center;
+    flex: 1; /* Occupa lo spazio centrale */
+}
+
+/* Menu (hamburger) */
+.menu-button {
+    font-size: 20px; /* Dimensione del menu */
+    background: none; /* Nessuno sfondo */
+    border: none; /* Nessun bordo */
+    cursor: pointer; /* Cambia il cursore */
+}
+
+/* Bottone Logout */
+.logout-button {
+    font-size: 14px; /* Dimensione del testo */
+    color: white; /* Testo bianco */
+    background-color: #d9534f; /* Colore rosso */
+    border: none; /* Nessun bordo */
+    border-radius: 4px; /* Angoli arrotondati */
+    padding: 5px 10px; /* Spaziatura interna */
+    cursor: pointer; /* Cambia il cursore */
+    white-space: nowrap; /* Evita che il testo vada a capo */
 }
 
 .logout-button:hover {
-    background-color: #c82333;
+    background-color: #c9302c; /* Cambia colore al passaggio del mouse */
 }
 
+/* Login link */
+.login-link {
+    font-size: 14px;
+    color: #007BFF;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+}
 
+.login-link:hover {
+    color: #0056b3;
+}
