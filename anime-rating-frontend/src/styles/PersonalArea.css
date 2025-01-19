@@ -1,8 +1,9 @@
 /* Contenitore generale */
 .personal-area-container {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1px;
 }
 
 /* Header */
@@ -15,8 +16,10 @@
 }
 
 .title {
-    font-size: 20px;
-    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    flex: 1;
 }
 
 /* Bottoni dei tab */

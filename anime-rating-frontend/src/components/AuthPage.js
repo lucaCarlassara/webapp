@@ -58,7 +58,7 @@ function AuthPage() {
             {/* Header con Hamburger Menu */}
             <div className="header">
                 <HamburgerMenu />
-                <h1 className="title">Login / Registrazione</h1>
+                <h1 className="title">Login / Sign up</h1>
                 <Link to="/home" className="home-link">
                     Home
                 </Link>

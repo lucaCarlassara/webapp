@@ -1,3 +1,11 @@
+/* Contenitore generale */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1px;
+}
+
 /* Header generale */
 .header {
     display: flex;
@@ -12,12 +20,11 @@
 
 /* Titolo centrato */
 .title {
-    font-size: 20px; /* Dimensione del testo */
-    font-weight: bold; /* Testo in grassetto */
+    font-size: 24px;
+    font-weight: bold;
     text-align: center;
-    flex: 1; /* Occupa lo spazio centrale */
+    flex: 1;
 }
-
 /* Menu (hamburger) */
 .menu-button {
     font-size: 20px; /* Dimensione del menu */
