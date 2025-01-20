@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode"; // Corretto import
 import "../styles/PersonalArea.css";
 import HamburgerMenu from "./HamburgerMenu";
 import axios from "axios";
@@ -7,11 +8,24 @@ import axios from "axios";
 function PersonalArea() {
     const [selectedTab, setSelectedTab] = useState("voted");
     const [animeList, setAnimeList] = useState([]);
+    const [username, setUsername] = useState(""); // Stato per il nome utente
     const navigate = useNavigate();
+
+    // Decodifica il token JWT per ottenere il nome utente
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            try {
+                const decoded = jwtDecode(token); // Usa jwtDecode qui
+                setUsername(decoded.username); // Imposta il nome utente
+            } catch (error) {
+                console.error("Errore nella decodifica del token:", error);
+            }
+        }
+    }, []);
 
     useEffect(() => {
         if (selectedTab === "toVote") {
-            // Interroga l'API per ottenere l'elenco degli anime
             axios
                 .get("http://127.0.0.1:8000/api/animes/")
                 .then((response) => {
@@ -40,6 +54,11 @@ function PersonalArea() {
                 <Link to="/home" className="home-link">
                     Home
                 </Link>
+            </div>
+
+            {/* Nome utente */}
+            <div className="user-info">
+                <p>Benvenuto, {username}!</p>
             </div>
 
             {/* Bottoni per cambiare tab */}

@@ -2,6 +2,9 @@ from django.contrib.auth.models import User
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import Anime
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
 
 @api_view(['POST'])
 def register_user(request):
@@ -57,3 +60,15 @@ def get_anime_details(request, anime_id):
     except Anime.DoesNotExist:
         return Response({"error": "Anime not found"}, status=404)
 
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        # Aggiungi l'username al payload del token
+        token['username'] = user.username
+
+        return token
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
