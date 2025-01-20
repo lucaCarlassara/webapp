@@ -5,7 +5,7 @@ import HamburgerMenu from "../components/HamburgerMenu"; // Importa il menu
 import "../styles/AnimePage.css"; // Stile per le pagine degli anime
 import axios from "axios";
 
-function AttackOnTitan() {
+function AnimePage() {
     const { id } = useParams(); // Ottieni l'ID dell'anime dall'URL
     const [anime, setAnime] = useState(null);
     const [ratings, setRatings] = useState({
@@ -13,6 +13,7 @@ function AttackOnTitan() {
         parameter2: null,
         parameter3: null,
     });
+    const [message, setMessage] = useState("");
 
     useEffect(() => {
         // Recupera i dati dell'anime dal backend
@@ -33,14 +34,41 @@ function AttackOnTitan() {
         }));
     };
 
+    const handleSave = () => {
+        const token = localStorage.getItem("token"); // Recupera il token JWT
+
+        if (!token) {
+            setMessage("Devi effettuare il login per salvare le votazioni.");
+            return;
+        }
+
+        axios
+            .post(
+                `http://127.0.0.1:8000/api/animes/${id}/ratings/`,
+                ratings,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`, // Passa il token JWT
+                    },
+                }
+            )
+            .then((response) => {
+                setMessage("Votazioni salvate con successo!");
+            })
+            .catch((error) => {
+                console.error("Errore nel salvataggio delle votazioni:", error);
+                setMessage("Errore nel salvataggio delle votazioni.");
+            });
+    };
+
     if (!anime) {
         return <p>Caricamento...</p>;
     }
 
     return (
         <div className="anime-page-container">
-             {/* Header con Hamburger Menu */}
-             <div className="header">
+            {/* Header con Hamburger Menu */}
+            <div className="header">
                 <HamburgerMenu /> {/* Aggiunto l'hamburger menu */}
                 <h1 className="title">Area Personale</h1>
                 <Link to="/" className="home-link">
@@ -88,9 +116,14 @@ function AttackOnTitan() {
                 </div>
             ))}
 
-            <button className="save-button">Salva</button>
+            {/* Messaggio di stato */}
+            {message && <p className="message">{message}</p>}
+
+            <button className="save-button" onClick={handleSave}>
+                Salva
+            </button>
         </div>
     );
 }
 
-export default AttackOnTitan;
+export default AnimePage;

@@ -1,9 +1,12 @@
 from django.contrib.auth.models import User
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import Anime
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
+from .models import Rating, Anime
 
 
 @api_view(['POST'])
@@ -72,3 +75,22 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
+
+class SaveRatingView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, anime_id):
+        user = request.user
+        anime = Anime.objects.get(id=anime_id)
+        data = request.data
+
+        # Controlla se esiste già una votazione per questo utente e questo anime
+        rating, created = Rating.objects.get_or_create(user=user, anime=anime)
+
+        # Aggiorna i voti
+        rating.parameter1 = data.get("parameter1", rating.parameter1)
+        rating.parameter2 = data.get("parameter2", rating.parameter2)
+        rating.parameter3 = data.get("parameter3", rating.parameter3)
+        rating.save()
+
+        return Response({"message": "Rating saved successfully."}, status=status.HTTP_200_OK)

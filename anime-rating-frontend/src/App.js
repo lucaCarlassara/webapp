@@ -4,7 +4,7 @@ import HomePage from "./components/HomePage";
 import AuthPage from "./components/AuthPage";
 import PersonalArea from "./components/PersonalArea";
 import { AuthProvider } from "./AuthContext";
-import AttackOnTitan from "./animePages/AttackOnTitan";
+import AttackOnTitan from "./animePages/AnimePage";
 
 function App() {
     useEffect(() => {
