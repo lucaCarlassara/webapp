@@ -62,6 +62,23 @@ def get_anime_details(request, anime_id):
         return Response(anime_data)
     except Anime.DoesNotExist:
         return Response({"error": "Anime not found"}, status=404)
+    
+@api_view(['GET'])
+def user_animes(request, user_id):
+    # Anime votati dall'utente
+    voted = Anime.objects.filter(rating__user_id=user_id)
+    
+    # Anime da votare
+    to_vote = Anime.objects.exclude(rating__user_id=user_id)
+
+    # Serializza i dati
+    voted_data = [{"id": anime.id, "title": anime.title} for anime in voted]
+    to_vote_data = [{"id": anime.id, "title": anime.title} for anime in to_vote]
+
+    return Response({
+        "voted": voted_data,
+        "to_vote": to_vote_data,
+    })
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod

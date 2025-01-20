@@ -4,10 +4,12 @@ import { Link } from "react-router-dom";
 import HamburgerMenu from "../components/HamburgerMenu"; // Importa il menu
 import "../styles/AnimePage.css"; // Stile per le pagine degli anime
 import axios from "axios";
+import { jwtDecode } from "jwt-decode"; // Corretto import
 
 function AnimePage() {
     const { id } = useParams(); // Ottieni l'ID dell'anime dall'URL
     const [anime, setAnime] = useState(null);
+    const [animeList, setAnimeList] = useState([]); // Aggiunto stato per la lista degli anime
     const [ratings, setRatings] = useState({
         parameter1: null,
         parameter2: null,
@@ -42,18 +44,24 @@ function AnimePage() {
             return;
         }
 
+        // Prepara i dati da inviare
+        const data = {
+            ...ratings,
+            user: jwtDecode(token).user_id, // Associa l'utente loggato
+        };
+
         axios
-            .post(
-                `http://127.0.0.1:8000/api/animes/${id}/ratings/`,
-                ratings,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`, // Passa il token JWT
-                    },
-                }
-            )
+            .post(`http://127.0.0.1:8000/api/animes/${id}/ratings/`, data, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
             .then((response) => {
                 setMessage("Votazioni salvate con successo!");
+
+                // Rimuove l'anime dalla lista degli anime da votare (frontend)
+                const updatedToVoteList = animeList.filter((anime) => anime.id !== id);
+                setAnimeList(updatedToVoteList);
             })
             .catch((error) => {
                 console.error("Errore nel salvataggio delle votazioni:", error);
