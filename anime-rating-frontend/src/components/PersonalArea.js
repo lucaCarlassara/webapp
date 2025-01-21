@@ -96,7 +96,7 @@ function PersonalArea() {
                     <div className="anime-voted-list">
                         {animeVoted.length > 0 ? (
                             animeVoted.map((anime) => (
-                                <div key={anime.id} className="anime-item">
+                                <div key={anime.id} className="anime-item" onClick={() => handleAnimeClick(anime.id)}>
                                     {anime.title}
                                 </div>
                             ))
