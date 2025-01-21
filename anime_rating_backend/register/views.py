@@ -21,6 +21,7 @@ def register_user(request):
         user = User.objects.create_user(username=username, password=password)
         return Response({'message': 'User registered successfully'}, status=201)
     except Exception as e:
+        print("Errore durante la registrazione:", str(e))
         return Response({'error': str(e)}, status=400)
     
 @api_view(['GET'])

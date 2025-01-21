@@ -26,7 +26,8 @@ function AuthPage() {
             alert("Login effettuato con successo!");
             navigate("/personal-area");
         } catch (error) {
-            alert("Login fallito! Controlla username e password.");
+            console.error("Errore nel login:", error.response?.data || error.message);
+            alert(error.response?.data.detail || "Login fallito! Controlla username e password.");
         }
     };
 
@@ -37,7 +38,7 @@ function AuthPage() {
             return;
         }
         try {
-            await axios.post("http://127.0.0.1:8000/api/register/", {
+            await axios.post("http://127.0.0.1:8000/api/register/register/", {
                 username: signupUsername,
                 password: signupPassword,
             });
@@ -49,9 +50,11 @@ function AuthPage() {
             alert("Registrazione effettuata con successo!");
             navigate("/personal-area");
         } catch (error) {
-            alert("Registrazione fallita! Riprova.");
+            console.error("Errore nella registrazione:", error.response?.data || error.message);
+            alert(error.response?.data.error || "Registrazione fallita!");
         }
     };
+    
 
     return (
         <div className="auth-container">
