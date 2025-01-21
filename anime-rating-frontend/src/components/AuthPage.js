@@ -4,6 +4,7 @@ import "../styles/AuthPage.css";
 import axios from "axios";
 import { AuthContext } from "../AuthContext";
 import HamburgerMenu from "./HamburgerMenu"; // Importa HamburgerMenu
+import { jwtDecode } from "jwt-decode"
 
 function AuthPage() {
     const [loginUsername, setLoginUsername] = useState("");
@@ -22,12 +23,14 @@ function AuthPage() {
                 username: loginUsername,
                 password: loginPassword,
             });
-            login(response.data.access);
+            const token = response.data.access;
+            const decoded = jwtDecode(token); // Decodifica il token JWT per ottenere il nome utente
+            login(token, decoded.username); // Passa il token e il nome utente al contesto
             alert("Login effettuato con successo!");
             navigate("/personal-area");
         } catch (error) {
             console.error("Errore nel login:", error.response?.data || error.message);
-            alert(error.response?.data.detail || "Login fallito! Controlla username e password.");
+            alert(error.response?.data.detail || "Login fallito!");
         }
     };
 
@@ -38,23 +41,28 @@ function AuthPage() {
             return;
         }
         try {
-            await axios.post("http://127.0.0.1:8000/api/register/register/", {
+            // Effettua la registrazione
+            await axios.post("http://127.0.0.1:8000/api/register/", {
                 username: signupUsername,
                 password: signupPassword,
             });
+    
+            // Effettua automaticamente il login dopo la registrazione
             const response = await axios.post("http://127.0.0.1:8000/api/token/", {
                 username: signupUsername,
                 password: signupPassword,
             });
-            login(response.data.access);
-            alert("Registrazione effettuata con successo!");
+    
+            const token = response.data.access;
+            const decoded = jwtDecode(token); // Decodifica il token JWT per ottenere il nome utente
+            login(token, decoded.username); // Passa il token e il nome utente al contesto
+            alert("Registrazione e login effettuati con successo!");
             navigate("/personal-area");
         } catch (error) {
             console.error("Errore nella registrazione:", error.response?.data || error.message);
-            alert(error.response?.data.error || "Registrazione fallita!");
+            alert(error.response?.data.detail || "Registrazione fallita!");
         }
     };
-    
 
     return (
         <div className="auth-container">
