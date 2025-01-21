@@ -11,4 +11,5 @@ urlpatterns = [
     path('animes/<int:anime_id>/', get_anime_details, name='get_anime_details'),
     path('animes/<int:anime_id>/ratings/', SaveRatingView.as_view(), name='save_rating'),
     path('user-animes/<int:user_id>/', views.user_animes, name='user_animes'),
+    path('animes/<int:anime_id>/ratings/<int:user_id>/', views.get_user_rating, name='get_user_rating'),
 ]

@@ -81,6 +81,19 @@ def user_animes(request, user_id):
         "to_vote": to_vote_data,
     })
 
+@api_view(['GET'])
+def get_user_rating(request, anime_id, user_id):
+    try:
+        # Cerca la valutazione per l'anime e l'utente specifici
+        rating = Rating.objects.get(anime_id=anime_id, user_id=user_id)
+        return Response({
+            "parameter1": rating.parameter1,
+            "parameter2": rating.parameter2,
+            "parameter3": rating.parameter3,
+        })
+    except Rating.DoesNotExist:
+        return Response({"error": "Rating not found"}, status=404)
+
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):

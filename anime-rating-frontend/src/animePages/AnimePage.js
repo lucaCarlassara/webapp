@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import HamburgerMenu from "../components/HamburgerMenu"; // Importa il menu
-import "../styles/AnimePage.css"; // Stile per le pagine degli anime
+import HamburgerMenu from "../components/HamburgerMenu";
+import "../styles/AnimePage.css";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode"; // Corretto import
+import { jwtDecode } from "jwt-decode";
 
 function AnimePage() {
     const { id } = useParams(); // Ottieni l'ID dell'anime dall'URL
     const [anime, setAnime] = useState(null);
-    const [animeList, setAnimeList] = useState([]); // Aggiunto stato per la lista degli anime
     const [ratings, setRatings] = useState({
         parameter1: null,
         parameter2: null,
         parameter3: null,
     });
+    const [isVoted, setIsVoted] = useState(false); // Stato per verificare se l'anime è stato votato
     const [message, setMessage] = useState("");
 
     useEffect(() => {
@@ -27,6 +27,36 @@ function AnimePage() {
             .catch((error) => {
                 console.error("Errore nel recupero dell'anime:", error);
             });
+
+        // Controlla se l'utente ha già votato questo anime
+        const token = localStorage.getItem("token");
+        if (token) {
+            const userId = jwtDecode(token).user_id;
+            axios
+                .get(`http://127.0.0.1:8000/api/animes/${id}/ratings/${userId}/`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+                .then((response) => {
+                    const userRatings = response.data;
+                    if (userRatings) {
+                        setRatings({
+                            parameter1: userRatings.parameter1,
+                            parameter2: userRatings.parameter2,
+                            parameter3: userRatings.parameter3,
+                        });
+                        setIsVoted(true); // L'anime è stato votato
+                    }
+                })
+                .catch((error) => {
+                    if (error.response?.status === 404) {
+                        setIsVoted(false); // L'anime non è stato votato
+                    } else {
+                        console.error("Errore nel recupero delle votazioni:", error);
+                    }
+                });
+        }
     }, [id]);
 
     const handleRating = (parameter, value) => {
@@ -37,17 +67,16 @@ function AnimePage() {
     };
 
     const handleSave = () => {
-        const token = localStorage.getItem("token"); // Recupera il token JWT
-
+        const token = localStorage.getItem("token");
         if (!token) {
             setMessage("Devi effettuare il login per salvare le votazioni.");
             return;
         }
 
-        // Prepara i dati da inviare
         const data = {
-            ...ratings,
-            user: jwtDecode(token).user_id, // Associa l'utente loggato
+            parameter1: ratings.parameter1,
+            parameter2: ratings.parameter2,
+            parameter3: ratings.parameter3,
         };
 
         axios
@@ -56,12 +85,9 @@ function AnimePage() {
                     Authorization: `Bearer ${token}`,
                 },
             })
-            .then((response) => {
+            .then(() => {
                 setMessage("Votazioni salvate con successo!");
-
-                // Rimuove l'anime dalla lista degli anime da votare (frontend)
-                const updatedToVoteList = animeList.filter((anime) => anime.id !== id);
-                setAnimeList(updatedToVoteList);
+                setIsVoted(true); // Imposta lo stato a "votato"
             })
             .catch((error) => {
                 console.error("Errore nel salvataggio delle votazioni:", error);
@@ -77,7 +103,7 @@ function AnimePage() {
         <div className="anime-page-container">
             {/* Header con Hamburger Menu */}
             <div className="header">
-                <HamburgerMenu /> {/* Aggiunto l'hamburger menu */}
+                <HamburgerMenu />
                 <h1 className="title">Area Personale</h1>
                 <Link to="/" className="home-link">
                     Home
@@ -115,7 +141,16 @@ function AnimePage() {
                                 className={`rating-button ${
                                     ratings[parameter] === num + 1 ? "selected" : ""
                                 }`}
-                                onClick={() => handleRating(parameter, num + 1)}
+                                style={{
+                                    backgroundColor:
+                                        ratings[parameter] === num + 1
+                                            ? getColor(num + 1)
+                                            : "transparent",
+                                    pointerEvents: isVoted ? "none" : "auto", // Disabilita il click se votato
+                                }}
+                                onClick={() =>
+                                    !isVoted && handleRating(parameter, num + 1)
+                                } // Imposta i voti solo se non è stato votato
                             >
                                 {num + 1}
                             </button>
@@ -127,11 +162,19 @@ function AnimePage() {
             {/* Messaggio di stato */}
             {message && <p className="message">{message}</p>}
 
-            <button className="save-button" onClick={handleSave}>
-                Salva
-            </button>
+            {/* Bottone Salva */}
+            {!isVoted && (
+                <button className="save-button" onClick={handleSave}>
+                    Salva
+                </button>
+            )}
         </div>
     );
 }
+
+// Funzione per determinare il colore basato sul voto
+const getColor = (rating) => {
+    return "blue";
+};
 
 export default AnimePage;
