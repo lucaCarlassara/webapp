@@ -4,6 +4,7 @@ from .views import get_anime_list
 from .views import get_anime_details
 from .views import SaveRatingView
 from . import views
+from .views import RatingDetailView
 
 urlpatterns = [
     path('register/', register_user, name='register_user'),
@@ -12,4 +13,5 @@ urlpatterns = [
     path('animes/<int:anime_id>/ratings/', SaveRatingView.as_view(), name='save_rating'),
     path('user-animes/<int:user_id>/', views.user_animes, name='user_animes'),
     path('animes/<int:anime_id>/ratings/<int:user_id>/', views.get_user_rating, name='get_user_rating'),
+    path('animes/<int:anime_id>/ratings/<int:user_id>/', RatingDetailView.as_view(), name='rating-detail'),
 ]

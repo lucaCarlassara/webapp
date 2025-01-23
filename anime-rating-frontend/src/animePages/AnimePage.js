@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import HamburgerMenu from "../components/HamburgerMenu";
-import "../styles/AnimePage.css";
+import HamburgerMenu from "../components/HamburgerMenu"; // Importa il menu
+import "../styles/AnimePage.css"; // Stile per le pagine degli anime
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from "jwt-decode"; // Corretto import
 
 function AnimePage() {
     const { id } = useParams(); // Ottieni l'ID dell'anime dall'URL
@@ -14,7 +14,7 @@ function AnimePage() {
         parameter2: null,
         parameter3: null,
     });
-    const [isVoted, setIsVoted] = useState(false); // Stato per verificare se l'anime è stato votato
+    const [isEditable, setIsEditable] = useState(false); // Stato per la modalità di modifica
     const [message, setMessage] = useState("");
 
     useEffect(() => {
@@ -28,7 +28,7 @@ function AnimePage() {
                 console.error("Errore nel recupero dell'anime:", error);
             });
 
-        // Controlla se l'utente ha già votato questo anime
+        // Recupera i voti dell'utente per l'anime
         const token = localStorage.getItem("token");
         if (token) {
             const userId = jwtDecode(token).user_id;
@@ -39,19 +39,16 @@ function AnimePage() {
                     },
                 })
                 .then((response) => {
-                    const userRatings = response.data;
-                    if (userRatings) {
-                        setRatings({
-                            parameter1: userRatings.parameter1,
-                            parameter2: userRatings.parameter2,
-                            parameter3: userRatings.parameter3,
-                        });
-                        setIsVoted(true); // L'anime è stato votato
-                    }
+                    setRatings({
+                        parameter1: response.data.parameter1,
+                        parameter2: response.data.parameter2,
+                        parameter3: response.data.parameter3,
+                    });
+                    setIsEditable(false); // Mostra i voti salvati come non modificabili
                 })
                 .catch((error) => {
-                    if (error.response?.status === 404) {
-                        setIsVoted(false); // L'anime non è stato votato
+                    if (error.response && error.response.status === 404) {
+                        setIsEditable(true); // Permetti di votare se non ci sono voti salvati
                     } else {
                         console.error("Errore nel recupero delle votazioni:", error);
                     }
@@ -69,30 +66,42 @@ function AnimePage() {
     const handleSave = () => {
         const token = localStorage.getItem("token");
         if (!token) {
-            setMessage("Devi effettuare il login per salvare le votazioni.");
+            setMessage("Devi effettuare il login per salvare o aggiornare le votazioni.");
             return;
         }
 
+        const userId = jwtDecode(token).user_id;
+
+        // Prepara i dati da inviare
         const data = {
             parameter1: ratings.parameter1,
             parameter2: ratings.parameter2,
             parameter3: ratings.parameter3,
         };
 
-        axios
-            .post(`http://127.0.0.1:8000/api/animes/${id}/ratings/`, data, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
+        const endpoint = `http://127.0.0.1:8000/api/animes/${id}/ratings/${userId}/`;
+
+        // Decide se eseguire POST (creazione) o PUT (aggiornamento)
+        const method = isEditable ? "post" : "put";
+
+        axios({
+            method: method,
+            url: method === "post" ? endpoint.replace(`/${userId}/`, "/") : endpoint,
+            data: data,
+            headers: { Authorization: `Bearer ${token}` },
+        })
             .then(() => {
-                setMessage("Votazioni salvate con successo!");
-                setIsVoted(true); // Imposta lo stato a "votato"
+                setMessage(isEditable ? "Votazioni salvate con successo!" : "Votazioni aggiornate con successo!");
+                setIsEditable(false); // Disabilita la modalità di modifica
             })
             .catch((error) => {
-                console.error("Errore nel salvataggio delle votazioni:", error);
-                setMessage("Errore nel salvataggio delle votazioni.");
+                console.error("Errore nel salvataggio o aggiornamento delle votazioni:", error);
+                setMessage("Errore nel salvataggio o aggiornamento delle votazioni.");
             });
+    };
+
+    const handleEdit = () => {
+        setIsEditable(true); // Permetti la modifica dei voti
     };
 
     if (!anime) {
@@ -141,16 +150,8 @@ function AnimePage() {
                                 className={`rating-button ${
                                     ratings[parameter] === num + 1 ? "selected" : ""
                                 }`}
-                                style={{
-                                    backgroundColor:
-                                        ratings[parameter] === num + 1
-                                            ? getColor(num + 1)
-                                            : "transparent",
-                                    pointerEvents: isVoted ? "none" : "auto", // Disabilita il click se votato
-                                }}
-                                onClick={() =>
-                                    !isVoted && handleRating(parameter, num + 1)
-                                } // Imposta i voti solo se non è stato votato
+                                onClick={() => isEditable && handleRating(parameter, num + 1)}
+                                disabled={!isEditable} // Disabilita il click se non è in modalità modifica
                             >
                                 {num + 1}
                             </button>
@@ -162,19 +163,18 @@ function AnimePage() {
             {/* Messaggio di stato */}
             {message && <p className="message">{message}</p>}
 
-            {/* Bottone Salva */}
-            {!isVoted && (
+            {/* Pulsanti per salvare o modificare */}
+            {isEditable ? (
                 <button className="save-button" onClick={handleSave}>
-                    Salva
+                    {ratings.parameter1 !== null ? "Aggiorna" : "Salva"}
+                </button>
+            ) : (
+                <button className="edit-button" onClick={handleEdit}>
+                    Modifica
                 </button>
             )}
         </div>
     );
 }
-
-// Funzione per determinare il colore basato sul voto
-const getColor = (rating) => {
-    return "blue";
-};
 
 export default AnimePage;

@@ -125,3 +125,17 @@ class SaveRatingView(APIView):
         rating.save()
 
         return Response({"message": "Rating saved successfully."}, status=status.HTTP_200_OK)
+    
+class RatingDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, anime_id, user_id):
+        try:
+            rating = Rating.objects.get(anime_id=anime_id, user_id=user_id)
+            return Response({
+                "parameter1": rating.parameter1,
+                "parameter2": rating.parameter2,
+                "parameter3": rating.parameter3,
+            })
+        except Rating.DoesNotExist:
+            return Response({"error": "Rating not found."}, status=404)
