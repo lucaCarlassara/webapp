@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import HamburgerMenu from "../components/HamburgerMenu"; // Importa il menu
-import "../styles/AnimePage.css"; // Stile per le pagine degli anime
+import HamburgerMenu from "../components/HamburgerMenu";
+import "../styles/AnimePage.css";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode"; // Corretto import
+import { jwtDecode } from "jwt-decode";
 
 function AnimePage() {
-    const { id } = useParams(); // Ottieni l'ID dell'anime dall'URL
+    const { id } = useParams();
     const [anime, setAnime] = useState(null);
     const [ratings, setRatings] = useState({
         parameter1: null,
         parameter2: null,
         parameter3: null,
     });
-    const [isEditable, setIsEditable] = useState(false); // Stato per la modalità di modifica
-    const [message, setMessage] = useState("");
+    const [isEditable, setIsEditable] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false); // Stato per la visibilità della spunta verde
 
     useEffect(() => {
-        // Recupera i dati dell'anime dal backend
+        // Recupera i dati dell'anime
         axios
             .get(`http://127.0.0.1:8000/api/animes/${id}/`)
             .then((response) => {
@@ -28,7 +28,7 @@ function AnimePage() {
                 console.error("Errore nel recupero dell'anime:", error);
             });
 
-        // Recupera i voti dell'utente per l'anime
+        // Recupera i voti salvati
         const token = localStorage.getItem("token");
         if (token) {
             const userId = jwtDecode(token).user_id;
@@ -44,11 +44,11 @@ function AnimePage() {
                         parameter2: response.data.parameter2,
                         parameter3: response.data.parameter3,
                     });
-                    setIsEditable(false); // Mostra i voti salvati come non modificabili
+                    setIsEditable(false);
                 })
                 .catch((error) => {
                     if (error.response && error.response.status === 404) {
-                        setIsEditable(true); // Permetti di votare se non ci sono voti salvati
+                        setIsEditable(true);
                     } else {
                         console.error("Errore nel recupero delle votazioni:", error);
                     }
@@ -65,14 +65,10 @@ function AnimePage() {
 
     const handleSave = () => {
         const token = localStorage.getItem("token");
-        if (!token) {
-            setMessage("Devi effettuare il login per salvare o aggiornare le votazioni.");
-            return;
-        }
+        if (!token) return;
 
         const userId = jwtDecode(token).user_id;
 
-        // Prepara i dati da inviare
         const data = {
             parameter1: ratings.parameter1,
             parameter2: ratings.parameter2,
@@ -80,8 +76,6 @@ function AnimePage() {
         };
 
         const endpoint = `http://127.0.0.1:8000/api/animes/${id}/ratings/${userId}/`;
-
-        // Decide se eseguire POST (creazione) o PUT (aggiornamento)
         const method = isEditable ? "post" : "put";
 
         axios({
@@ -91,17 +85,21 @@ function AnimePage() {
             headers: { Authorization: `Bearer ${token}` },
         })
             .then(() => {
-                setMessage(isEditable ? "Votazioni salvate con successo!" : "Votazioni aggiornate con successo!");
-                setIsEditable(false); // Disabilita la modalità di modifica
+                setShowSuccess(true); // Mostra la spunta verde
+                setIsEditable(false);
+
+                // Nascondi la spunta dopo 2 secondi
+                setTimeout(() => {
+                    setShowSuccess(false);
+                }, 2000);
             })
             .catch((error) => {
                 console.error("Errore nel salvataggio o aggiornamento delle votazioni:", error);
-                setMessage("Errore nel salvataggio o aggiornamento delle votazioni.");
             });
     };
 
     const handleEdit = () => {
-        setIsEditable(true); // Permetti la modifica dei voti
+        setIsEditable(true);
     };
 
     if (!anime) {
@@ -151,7 +149,7 @@ function AnimePage() {
                                     ratings[parameter] === num + 1 ? "selected" : ""
                                 }`}
                                 onClick={() => isEditable && handleRating(parameter, num + 1)}
-                                disabled={!isEditable} // Disabilita il click se non è in modalità modifica
+                                disabled={!isEditable}
                             >
                                 {num + 1}
                             </button>
@@ -160,19 +158,19 @@ function AnimePage() {
                 </div>
             ))}
 
-            {/* Messaggio di stato */}
-            {message && <p className="message">{message}</p>}
-
             {/* Pulsanti per salvare o modificare */}
             {isEditable ? (
                 <button className="save-button" onClick={handleSave}>
-                    {ratings.parameter1 !== null ? "Aggiorna" : "Salva"}
+                    Salva
                 </button>
             ) : (
                 <button className="edit-button" onClick={handleEdit}>
                     Modifica
                 </button>
             )}
+
+            {/* Spunta verde */}
+            {showSuccess && <div className="success-checkmark">✔</div>}
         </div>
     );
 }
