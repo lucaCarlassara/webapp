@@ -61,3 +61,42 @@
 .login-link:hover {
     color: #0056b3;
 }
+
+.ratings-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin: 2rem;
+    width: 100%; /* Usa tutto lo spazio disponibile */
+}
+
+.parameter-section {
+    margin-bottom: 2rem;
+    width: 100%; /* Adatta alla larghezza */
+}
+
+.anime-list {
+    display: grid; /* Usa un layout a griglia per adattarsi allo spazio */
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Aggiunge immagini in colonne adattive */
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+.anime-item {
+    text-align: center;
+    padding: 0.5rem;
+}
+
+.anime-image {
+    width: 100%; /* Adatta l'immagine alla larghezza della griglia */
+    height: auto; /* Mantieni le proporzioni */
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+}
+
+h2 {
+    text-align: center; /* Centra il titolo */
+    margin-bottom: 1rem;
+}
+

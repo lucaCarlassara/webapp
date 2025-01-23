@@ -14,4 +14,5 @@ urlpatterns = [
     path('user-animes/<int:user_id>/', views.user_animes, name='user_animes'),
     path('animes/<int:anime_id>/ratings/<int:user_id>/', views.get_user_rating, name='get_user_rating'),
     path('animes/<int:anime_id>/ratings/<int:user_id>/', RatingDetailView.as_view(), name='rating-detail'),
+    path("ratings-summary/", views.ratings_summary, name="ratings-summary"),
 ]

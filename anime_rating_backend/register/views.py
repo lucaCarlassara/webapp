@@ -7,7 +7,35 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from .models import Rating, Anime
+from django.db.models import Avg
 
+@api_view(['GET'])
+def ratings_summary(request):
+    # Calcola le medie dei voti per ciascun parametro
+    ratings = (
+        Rating.objects.values("anime_id")
+        .annotate(
+            parameter1_avg=Avg("parameter1"),
+            parameter2_avg=Avg("parameter2"),
+            parameter3_avg=Avg("parameter3"),
+        )
+        .order_by("-parameter1_avg", "-parameter2_avg", "-parameter3_avg")
+    )
+
+    # Serializza i dati includendo i dettagli degli anime
+    data = [
+        {
+            "id": r["anime_id"],
+            "title": Anime.objects.get(id=r["anime_id"]).title,
+            "image_url": Anime.objects.get(id=r["anime_id"]).image_url,
+            "parameter1": r["parameter1_avg"] or 0,
+            "parameter2": r["parameter2_avg"] or 0,
+            "parameter3": r["parameter3_avg"] or 0,
+        }
+        for r in ratings
+    ]
+
+    return Response(data)
 
 @api_view(['POST'])
 def register_user(request):
