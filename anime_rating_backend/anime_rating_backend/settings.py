@@ -84,17 +84,32 @@ WSGI_APPLICATION = 'anime_rating_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.mysql',
+#        'NAME': 'myWebApp2',
+#        'USER': 'root',  # O il nome utente personalizzato
+#        'PASSWORD': 'root',  # La password impostata
+#        'HOST': 'localhost',
+#       'PORT': '3306',  # Porta predefinita di MySQL
+#    }
+#}
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'myWebApp2',
-        'USER': 'root',  # O il nome utente personalizzato
-        'PASSWORD': 'root',  # La password impostata
-        'HOST': 'localhost',
-        'PORT': '3306',  # Porta predefinita di MySQL
+        'NAME': 'defaultdb',  # Inserisci il nome del database
+        'USER': 'avnadmin',       # Inserisci il nome utente
+        'PASSWORD': 'AVNS_ChFSpHpHMKKRwDek-Ya',      # Inserisci la password
+        'HOST': 'anime-ratings-mysql-anime-ratings-db.b.aivencloud.com',  # Host fornito da FreeSQLDatabase
+        'PORT': '21935',              # Porta fornita da FreeSQLDatabase
+        'OPTIONS': {
+            'ssl': {
+                'ca': 'C:/Users/carla/Documents/GitHub/webapp/anime_rating_backend/ca.pem',  # Percorso del file CA certificate
+            }
+        },
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
