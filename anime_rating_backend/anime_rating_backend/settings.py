@@ -20,7 +20,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'register',
-    'corsheaders',
+    'corsheaders',  # Aggiungi corsheaders
 ]
 
 # Configurazione REST Framework
@@ -33,13 +33,12 @@ REST_FRAMEWORK = {
 # Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # Deve essere PRIMA di CommonMiddleware
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 # URL e WSGI
@@ -76,15 +75,19 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-ALLOWED_HOSTS = ['*']
+# Sicurezza per host autorizzati
+ALLOWED_HOSTS = [
+    "webapp-573s.onrender.com",  # Dominio del backend su Render
+    "helpful-longma-5eb547.netlify.app",  # Dominio del frontend su Netlify
+]
 
 # Configurazione CORS
 CORS_ALLOWED_ORIGINS = [
-    #"http://localhost:3000",
-    #"https://helpful-longma-5eb547.netlify.app",
-    '*',
+    "https://helpful-longma-5eb547.netlify.app",  # Frontend su Netlify
 ]
-# Rimuovi questa riga se usi `CORS_ALLOWED_ORIGINS`
+
+# CORS_ALLOW_ALL_ORIGINS è COMMENTATO per sicurezza
+# NON USARE IN PRODUZIONE
 # CORS_ALLOW_ALL_ORIGINS = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
