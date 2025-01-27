@@ -4,6 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import "../styles/PersonalArea.css";
 import HamburgerMenu from "./HamburgerMenu";
 import axios from "axios";
+import config from "../config";
 
 function PersonalArea() {
     const [selectedTab, setSelectedTab] = useState("voted");
@@ -34,7 +35,7 @@ function PersonalArea() {
 
             // Interroga il backend per ottenere le liste degli anime
             axios
-                .get(`http://127.0.0.1:8000/api/user-animes/${userId}/`, {
+                .get(`${config.backendUrl}/api/user-animes/${userId}/`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

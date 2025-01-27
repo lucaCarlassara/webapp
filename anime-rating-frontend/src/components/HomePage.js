@@ -4,6 +4,7 @@ import "../styles/HomePage.css";
 import HamburgerMenu from "./HamburgerMenu";
 import { AuthContext } from "../AuthContext";
 import axios from "axios";
+import config from "../config";
 
 function HomePage() {
     const { isAuthenticated, logout } = useContext(AuthContext);
@@ -12,7 +13,7 @@ function HomePage() {
     useEffect(() => {
         // Recupera i dati dei voti e calcola le medie
         axios
-            .get("http://127.0.0.1:8000/api/ratings-summary/") // Endpoint per recuperare i dati delle medie
+            .get(`${config.backendUrl}/api/ratings-summary/`) // Usa l'URL del backend configurato
             .then((response) => {
                 setAnimeRatings(response.data);
             })
@@ -26,7 +27,7 @@ function HomePage() {
             {/* Header */}
             <div className="header">
                 <HamburgerMenu />
-                <h1 className="title">Home Pag</h1>
+                <h1 className="title">Home Page</h1>
                 {isAuthenticated ? (
                     <button onClick={logout} className="logout-button">
                         Logout

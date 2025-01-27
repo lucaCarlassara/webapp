@@ -5,6 +5,7 @@ import HamburgerMenu from "../components/HamburgerMenu";
 import "../styles/AnimePage.css";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import config from "../config";
 
 function AnimePage() {
     const { id } = useParams();
@@ -15,12 +16,12 @@ function AnimePage() {
         parameter3: null,
     });
     const [isEditable, setIsEditable] = useState(false);
-    const [showSuccess, setShowSuccess] = useState(false); // Stato per la visibilità della spunta verde
+    const [showSuccess, setShowSuccess] = useState(false); // Stato per la spunta verde
 
     useEffect(() => {
-        // Recupera i dati dell'anime
+        // Recupera i dettagli dell'anime
         axios
-            .get(`http://127.0.0.1:8000/api/animes/${id}/`)
+            .get(`${config.backendUrl}/api/animes/${id}/`)
             .then((response) => {
                 setAnime(response.data);
             })
@@ -28,12 +29,12 @@ function AnimePage() {
                 console.error("Errore nel recupero dell'anime:", error);
             });
 
-        // Recupera i voti salvati
+        // Recupera i voti salvati per l'anime dell'utente
         const token = localStorage.getItem("token");
         if (token) {
             const userId = jwtDecode(token).user_id;
             axios
-                .get(`http://127.0.0.1:8000/api/animes/${id}/ratings/${userId}/`, {
+                .get(`${config.backendUrl}/api/animes/${id}/ratings/${userId}/`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -75,7 +76,7 @@ function AnimePage() {
             parameter3: ratings.parameter3,
         };
 
-        const endpoint = `http://127.0.0.1:8000/api/animes/${id}/ratings/${userId}/`;
+        const endpoint = `${config.backendUrl}/api/animes/${id}/ratings/${userId}/`;
         const method = isEditable ? "post" : "put";
 
         axios({
