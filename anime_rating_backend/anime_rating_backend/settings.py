@@ -26,8 +26,10 @@ SECRET_KEY = 'django-insecure-sx-3(9t&^vtms1csi(x5r_fqf11m8z7b7p_9$9%8geou2ttiju
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
+
 ALLOWED_HOSTS = [
-    "anime-ratings-backend.onrender.com",  # Il dominio del backend su Render
+    "https://webapp-wni0.onrender.com",  # Il dominio del backend su Render
     "localhost",
 ]
 
@@ -163,7 +165,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type

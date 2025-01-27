@@ -4,7 +4,7 @@ import "../styles/AuthPage.css";
 import axios from "axios";
 import { AuthContext } from "../AuthContext";
 import HamburgerMenu from "./HamburgerMenu"; // Importa HamburgerMenu
-import { jwtDecode } from "jwt-decode"
+import { jwtDecode } from "jwt-decode";
 
 function AuthPage() {
     const [loginUsername, setLoginUsername] = useState("");
@@ -16,10 +16,13 @@ function AuthPage() {
     const { login } = useContext(AuthContext);
     const navigate = useNavigate();
 
+    // Legge l'URL del backend dal file .env
+    const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("http://127.0.0.1:8000/api/token/", {
+            const response = await axios.post(`${backendUrl}/api/token/`, {
                 username: loginUsername,
                 password: loginPassword,
             });
@@ -42,13 +45,13 @@ function AuthPage() {
         }
         try {
             // Effettua la registrazione
-            await axios.post("http://127.0.0.1:8000/api/register/", {
+            await axios.post(`${backendUrl}/api/register/`, {
                 username: signupUsername,
                 password: signupPassword,
             });
     
             // Effettua automaticamente il login dopo la registrazione
-            const response = await axios.post("http://127.0.0.1:8000/api/token/", {
+            const response = await axios.post(`${backendUrl}/api/token/`, {
                 username: signupUsername,
                 password: signupPassword,
             });
