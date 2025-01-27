@@ -76,10 +76,13 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# CORS
+ALLOWED_HOSTS = ['*']
+
+# Configurazione CORS
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "https://helpful-longma-5eb547.netlify.app",
+    #"http://localhost:3000",
+    #"https://helpful-longma-5eb547.netlify.app",
+    '*',
 ]
 # Rimuovi questa riga se usi `CORS_ALLOWED_ORIGINS`
 # CORS_ALLOW_ALL_ORIGINS = True
