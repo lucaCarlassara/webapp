@@ -79,12 +79,12 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 # Sicurezza per host autorizzati
 ALLOWED_HOSTS = [
     "webapp-573s.onrender.com",  # Dominio del backend su Render
-    "helpful-longma-5eb547.netlify.app",  # Dominio del frontend su Netlify
+    "anime-ratings.netlify.app",  # Dominio del frontend su Netlify
 ]
 
 # Configurazione CORS
 CORS_ALLOWED_ORIGINS = [
-    "https://helpful-longma-5eb547.netlify.app",  # Frontend su Netlify
+    "https://anime-ratings.netlify.app",  # Frontend su Netlify
 ]
 
 # CORS_ALLOW_ALL_ORIGINS è COMMENTATO per sicurezza
