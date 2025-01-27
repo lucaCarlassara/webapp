@@ -4,7 +4,7 @@ import "../styles/AuthPage.css";
 import axios from "axios";
 import { AuthContext } from "../AuthContext";
 import HamburgerMenu from "./HamburgerMenu";
-import jwtDecode from "jwt-decode"; // Corretto import
+import { jwtDecode } from "jwt-decode"; // Corretto import
 
 function AuthPage() {
     const [loginUsername, setLoginUsername] = useState("");
