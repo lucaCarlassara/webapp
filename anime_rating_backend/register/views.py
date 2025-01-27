@@ -8,6 +8,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from .models import Rating, Anime
 from django.db.models import Avg
+from django.http import HttpResponse
+
+def home(request):
+    return HttpResponse("Il backend è attivo e funzionante!")
 
 @api_view(['GET'])
 def ratings_summary(request):
