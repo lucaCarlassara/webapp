@@ -3,8 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import "../styles/AuthPage.css";
 import axios from "axios";
 import { AuthContext } from "../AuthContext";
-import HamburgerMenu from "./HamburgerMenu"; // Importa HamburgerMenu
-import { jwtDecode } from "jwt-decode";
+import HamburgerMenu from "./HamburgerMenu";
+import jwtDecode from "jwt-decode"; // Corretto import
 
 function AuthPage() {
     const [loginUsername, setLoginUsername] = useState("");
@@ -16,8 +16,8 @@ function AuthPage() {
     const { login } = useContext(AuthContext);
     const navigate = useNavigate();
 
-    // Legge l'URL del backend dal file .env
-    const backendUrl = process.env.REACT_APP_BACKEND_URL;
+    // Legge l'URL del backend con fallback
+    const backendUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:8000";
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -27,13 +27,14 @@ function AuthPage() {
                 password: loginPassword,
             });
             const token = response.data.access;
-            const decoded = jwtDecode(token); // Decodifica il token JWT per ottenere il nome utente
-            login(token, decoded.username); // Passa il token e il nome utente al contesto
+            const decoded = jwtDecode(token);
+            login(token, decoded.username);
             alert("Login effettuato con successo!");
-            navigate("/personal-area");
+            navigate("/personal-area", { replace: true });
         } catch (error) {
+            const errorMessage = error.response?.data?.detail || "Errore durante il login. Riprova!";
             console.error("Errore nel login:", error.response?.data || error.message);
-            alert(error.response?.data.detail || "Login fallito!");
+            alert(errorMessage);
         }
     };
 
@@ -44,32 +45,30 @@ function AuthPage() {
             return;
         }
         try {
-            // Effettua la registrazione
             await axios.post(`${backendUrl}/api/register/`, {
                 username: signupUsername,
                 password: signupPassword,
             });
-    
-            // Effettua automaticamente il login dopo la registrazione
+
             const response = await axios.post(`${backendUrl}/api/token/`, {
                 username: signupUsername,
                 password: signupPassword,
             });
-    
+
             const token = response.data.access;
-            const decoded = jwtDecode(token); // Decodifica il token JWT per ottenere il nome utente
-            login(token, decoded.username); // Passa il token e il nome utente al contesto
+            const decoded = jwtDecode(token);
+            login(token, decoded.username);
             alert("Registrazione e login effettuati con successo!");
-            navigate("/personal-area");
+            navigate("/personal-area", { replace: true });
         } catch (error) {
+            const errorMessage = error.response?.data?.detail || "Errore durante la registrazione. Riprova!";
             console.error("Errore nella registrazione:", error.response?.data || error.message);
-            alert(error.response?.data.detail || "Registrazione fallita!");
+            alert(errorMessage);
         }
     };
 
     return (
         <div className="auth-container">
-            {/* Header con Hamburger Menu */}
             <div className="header">
                 <HamburgerMenu />
                 <h1 className="title">Login / Sign up</h1>
@@ -78,7 +77,6 @@ function AuthPage() {
                 </Link>
             </div>
 
-            {/* Login Form */}
             <form className="auth-form" onSubmit={handleLogin}>
                 <h2>Login</h2>
                 <input
@@ -106,7 +104,6 @@ function AuthPage() {
                 <span>or</span>
             </div>
 
-            {/* Signup Form */}
             <form className="auth-form" onSubmit={handleSignup}>
                 <h2>Sign up</h2>
                 <input
