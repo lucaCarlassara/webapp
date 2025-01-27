@@ -26,7 +26,10 @@ SECRET_KEY = 'django-insecure-sx-3(9t&^vtms1csi(x5r_fqf11m8z7b7p_9$9%8geou2ttiju
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "anime-ratings-backend.onrender.com",  # Il dominio del backend su Render
+    "localhost",
+]
 
 
 # Application definition
@@ -161,14 +164,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Frontend React
-]
+#CORS_ALLOWED_ORIGINS = [
+#    "http://localhost:3000",  # Frontend React
+#    "helpful-longma-5eb547.netlify.app",
+#]
 
 CORS_ALLOW_ALL_ORIGINS = True
