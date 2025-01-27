@@ -26,7 +26,7 @@ function HomePage() {
             {/* Header */}
             <div className="header">
                 <HamburgerMenu />
-                <h1 className="title">Home Page</h1>
+                <h1 className="title">Home Pag</h1>
                 {isAuthenticated ? (
                     <button onClick={logout} className="logout-button">
                         Logout
