@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -95,19 +96,33 @@ WSGI_APPLICATION = 'anime_rating_backend.wsgi.application'
 #    }
 #}
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.mysql',
+#        'NAME': 'defaultdb',  # Inserisci il nome del database
+#        'USER': 'avnadmin',       # Inserisci il nome utente
+#        'PASSWORD': 'AVNS_ChFSpHpHMKKRwDek-Ya',      # Inserisci la password
+#        'HOST': 'anime-ratings-mysql-anime-ratings-db.b.aivencloud.com',  # Host fornito da FreeSQLDatabase
+#        'PORT': '21935',              # Porta fornita da FreeSQLDatabase
+#        'OPTIONS': {
+#            'ssl': {
+#                'ca': 'C:/Users/carla/Documents/GitHub/webapp/anime_rating_backend/ca.pem',  # Percorso del file CA certificate
+#            }
+#       },
+#    }
+#}
+
+SECRET_KEY = config('SECRET_KEY')
+DEBUG = config('DEBUG', default=False, cast=bool)
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'defaultdb',  # Inserisci il nome del database
-        'USER': 'avnadmin',       # Inserisci il nome utente
-        'PASSWORD': 'AVNS_ChFSpHpHMKKRwDek-Ya',      # Inserisci la password
-        'HOST': 'anime-ratings-mysql-anime-ratings-db.b.aivencloud.com',  # Host fornito da FreeSQLDatabase
-        'PORT': '21935',              # Porta fornita da FreeSQLDatabase
-        'OPTIONS': {
-            'ssl': {
-                'ca': 'C:/Users/carla/Documents/GitHub/webapp/anime_rating_backend/ca.pem',  # Percorso del file CA certificate
-            }
-        },
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT', cast=int),
     }
 }
 
