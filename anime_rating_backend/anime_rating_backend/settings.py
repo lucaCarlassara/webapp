@@ -1,5 +1,13 @@
 from pathlib import Path
-from decouple import config
+from decouple import config, UndefinedValueError
+from decouple import Config, RepositoryEnv
+
+try:
+    SECRET_KEY = config('SECRET_KEY')  # Forza il caricamento delle variabili
+except UndefinedValueError:
+    print("Il file .env non è stato caricato correttamente!")
+
+config = Config(RepositoryEnv('.env.local'))
 
 # Percorsi base
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -8,6 +16,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 ENVIRONMENT = config('ENVIRONMENT', default='production')  # Identifica l'ambiente (development/production)
+print(f"ENVIRONMENT: {ENVIRONMENT}")  # Aggiungi questa riga
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
 
 # Applicazioni installate
@@ -106,11 +115,12 @@ else:
 # Configurazione CORS
 if ENVIRONMENT == 'development':
     CORS_ALLOWED_ORIGINS = [
-        "http://127.0.0.1:3000",  # Frontend React locale
+        "http://127.0.0.1:3000",
+        "http://localhost:3000",  # Frontend React locale
     ]
 else:
     CORS_ALLOWED_ORIGINS = [
-        "https://anime-ratings.netlify.app",  # Frontend su Netlify
+        "https://anime-ratings.netlify.app",
     ]
 
 # Configurazione default auto field
