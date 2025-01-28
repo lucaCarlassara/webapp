@@ -7,6 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Sicurezza
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
+ENVIRONMENT = config('ENVIRONMENT', default='production')  # Identifica l'ambiente (development/production)
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
 
 # Applicazioni installate
@@ -46,7 +47,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'anime_rating_backend.urls'
 WSGI_APPLICATION = 'anime_rating_backend.wsgi.application'
 
-# Database
+# Configurazione database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -76,19 +77,42 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# Sicurezza per host autorizzati
-ALLOWED_HOSTS = [
-    "webapp-573s.onrender.com",  # Dominio del backend su Render
-    "anime-ratings.netlify.app",  # Dominio del frontend su Netlify
+# Configurazione dei template
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR / 'templates'],  # Cartella per template personalizzati
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
 ]
+
+# Sicurezza per host autorizzati
+if ENVIRONMENT == 'development':
+    ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+else:
+    ALLOWED_HOSTS = [
+        "webapp-573s.onrender.com",  # Dominio del backend su Render
+        "anime-ratings.netlify.app",  # Dominio del frontend su Netlify
+    ]
 
 # Configurazione CORS
-CORS_ALLOWED_ORIGINS = [
-    "https://anime-ratings.netlify.app",  # Frontend su Netlify
-]
+if ENVIRONMENT == 'development':
+    CORS_ALLOWED_ORIGINS = [
+        "http://127.0.0.1:3000",  # Frontend React locale
+    ]
+else:
+    CORS_ALLOWED_ORIGINS = [
+        "https://anime-ratings.netlify.app",  # Frontend su Netlify
+    ]
 
-# CORS_ALLOW_ALL_ORIGINS è COMMENTATO per sicurezza
-# NON USARE IN PRODUZIONE
-# CORS_ALLOW_ALL_ORIGINS = True
-
+# Configurazione default auto field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
