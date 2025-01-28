@@ -11,3 +11,6 @@ far partire il frontend
 quando si cambia il database dal backend fare:
 - python manage.py makemigrations
 - python manage.py migrate
+
+per aggiungere anime
+- http://127.0.0.1:8000/admin/
