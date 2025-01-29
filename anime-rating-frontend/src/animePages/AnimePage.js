@@ -11,9 +11,23 @@ function AnimePage() {
     const { id } = useParams();
     const [anime, setAnime] = useState(null);
     const [ratings, setRatings] = useState({
-        parameter1: null,
-        parameter2: null,
-        parameter3: null,
+        intro: null,
+        soundtrack: null,
+        plot: null,
+        animations: null,
+        unpredictability: null,
+        protagonist: null,
+        secondary_characters: null,
+        plot_armor: null,
+        character_development: null,
+        villains: null,
+        japanese_awkwardness: null,
+        story_flow: null,
+        dead_moments: null,
+        logical_character_choices: null,
+        fights: null,
+        character_design: null,
+        ending: null,
     });
     const [isEditable, setIsEditable] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false); // Stato per la spunta verde
@@ -41,9 +55,23 @@ function AnimePage() {
                 })
                 .then((response) => {
                     setRatings({
-                        parameter1: response.data.parameter1,
-                        parameter2: response.data.parameter2,
-                        parameter3: response.data.parameter3,
+                        intro: response.data.intro,
+                        soundtrack: response.data.soundtrack,
+                        plot: response.data.plot,
+                        animations: response.data.animations,
+                        unpredictability: response.data.unpredictability,
+                        protagonist: response.data.protagonist,
+                        secondary_characters: response.data.secondary_characters,
+                        plot_armor: response.data.plot_armor,
+                        character_development: response.data.character_development,
+                        villains: response.data.villains,
+                        japanese_awkwardness: response.data.japanese_awkwardness,
+                        story_flow: response.data.story_flow,
+                        dead_moments: response.data.dead_moments,
+                        logical_character_choices: response.data.logical_character_choices,
+                        fights: response.data.fights,
+                        character_design: response.data.character_design,
+                        ending: response.data.ending,
                     });
                     setIsEditable(false);
                 })
@@ -71,9 +99,23 @@ function AnimePage() {
         const userId = jwtDecode(token).user_id;
 
         const data = {
-            parameter1: ratings.parameter1,
-            parameter2: ratings.parameter2,
-            parameter3: ratings.parameter3,
+            intro: ratings.intro,
+            soundtrack: ratings.soundtrack,
+            plot: ratings.plot,
+            animations: ratings.animations,
+            unpredictability: ratings.unpredictability,
+            protagonist: ratings.protagonist,
+            secondary_characters: ratings.secondary_characters,
+            plot_armor: ratings.plot_armor,
+            character_development: ratings.character_development,
+            villains: ratings.villains,
+            japanese_awkwardness: ratings.japanese_awkwardness,
+            story_flow: ratings.story_flow,
+            dead_moments: ratings.dead_moments,
+            logical_character_choices: ratings.logical_character_choices,
+            fights: ratings.fights,
+            character_design: ratings.character_design,
+            ending: ratings.ending,
         };
 
         const endpoint = `${config.backendUrl}/api/animes/${id}/ratings/${userId}/`;
@@ -139,9 +181,9 @@ function AnimePage() {
             <p className="anime-description">{anime.description}</p>
 
             {/* Parametri di valutazione */}
-            {["parameter1", "parameter2", "parameter3"].map((parameter, index) => (
+            {["intro", "soundtrack", "plot", "animations", "unpredictability", "protagonist", "secondary_characters", "plot_armor", "character_development", "villains", "japanese_awkwardness", "story_flow", "dead_moments", "logical_character_choices", "fights", "character_design", "ending"].map((parameter, index) => (
                 <div key={parameter} className="rating-row">
-                    <p>Parametro {index + 1}</p>
+                    <p>{parameter.replace("_", " ").replace(/(^|\s)\S/g, (letter) => letter.toUpperCase())}</p>
                     <div className="rating-options">
                         {[...Array(10).keys()].map((num) => (
                             <button
@@ -158,6 +200,7 @@ function AnimePage() {
                     </div>
                 </div>
             ))}
+
 
             {/* Pulsanti per salvare o modificare */}
             {isEditable ? (

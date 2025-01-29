@@ -19,11 +19,25 @@ def ratings_summary(request):
     ratings = (
         Rating.objects.values("anime_id")
         .annotate(
-            parameter1_avg=Avg("parameter1"),
-            parameter2_avg=Avg("parameter2"),
-            parameter3_avg=Avg("parameter3"),
+            intro_avg=Avg("intro"),
+            soundtrack_avg=Avg("soundtrack"),
+            plot_avg=Avg("plot"),
+            animations_avg=Avg("animations"),
+            unpredictability_avg=Avg("unpredictability"),
+            protagonist_avg=Avg("protagonist"),
+            secondary_characters_avg=Avg("secondary_characters"),
+            plot_armor_avg=Avg("plot_armor"),
+            character_development_avg=Avg("character_development"),
+            villains_avg=Avg("villains"),
+            japanese_awkwardness_avg=Avg("japanese_awkwardness"),
+            story_flow_avg=Avg("story_flow"),
+            dead_moments_avg=Avg("dead_moments"),
+            logical_character_choices_avg=Avg("logical_character_choices"),
+            fights_avg=Avg("fights"),
+            character_design_avg=Avg("character_design"),
+            ending_avg=Avg("ending"),
         )
-        .order_by("-parameter1_avg", "-parameter2_avg", "-parameter3_avg")
+        .order_by("-intro_avg", "-soundtrack_avg", "-plot_avg", "-animations_avg", "-unpredictability_avg", "-protagonist_avg", "-secondary_characters_avg", "-plot_armor_avg", "-character_development_avg", "-villains_avg", "-japanese_awkwardness_avg", "-story_flow_avg", "-dead_moments_avg", "-logical_character_choices_avg", "-fights_avg", "-character_design_avg", "-ending_avg")
     )
 
     # Serializza i dati includendo i dettagli degli anime
@@ -32,9 +46,23 @@ def ratings_summary(request):
             "id": r["anime_id"],
             "title": Anime.objects.get(id=r["anime_id"]).title,
             "image_url": Anime.objects.get(id=r["anime_id"]).image_url,
-            "parameter1": r["parameter1_avg"] or 0,
-            "parameter2": r["parameter2_avg"] or 0,
-            "parameter3": r["parameter3_avg"] or 0,
+            "intro": r["intro_avg"] or 0,
+            "soundtrack": r["soundtrack_avg"] or 0,
+            "plot": r["plot_avg"] or 0,
+            "animations": r["animations_avg"] or 0,
+            "unpredictability": r["unpredictability_avg"] or 0,
+            "protagonist": r["protagonist_avg"] or 0,
+            "secondary_characters": r["secondary_characters_avg"] or 0,
+            "plot_armor": r["plot_armor_avg"] or 0,
+            "character_development": r["character_development_avg"] or 0,
+            "villains": r["villains_avg"] or 0,
+            "japanese_awkwardness": r["japanese_awkwardness_avg"] or 0,
+            "story_flow": r["story_flow_avg"] or 0,
+            "dead_moments": r["dead_moments_avg"] or 0,
+            "logical_character_choices": r["logical_character_choices_avg"] or 0,
+            "fights": r["fights_avg"] or 0,
+            "character_design": r["character_design_avg"] or 0,
+            "ending": r["ending_avg"] or 0,
         }
         for r in ratings
     ]
@@ -119,9 +147,23 @@ def get_user_rating(request, anime_id, user_id):
         # Cerca la valutazione per l'anime e l'utente specifici
         rating = Rating.objects.get(anime_id=anime_id, user_id=user_id)
         return Response({
-            "parameter1": rating.parameter1,
-            "parameter2": rating.parameter2,
-            "parameter3": rating.parameter3,
+            "intro": rating.intro,
+            "soundtrack": rating.soundtrack,
+            "plot": rating.plot,
+            "animations": rating.animations,
+            "unpredictability": rating.unpredictability,
+            "protagonist": rating.protagonist,
+            "secondary_characters": rating.secondary_characters,
+            "plot_armor": rating.plot_armor,
+            "character_development": rating.character_development,
+            "villains": rating.villains,
+            "japanese_awkwardness": rating.japanese_awkwardness,
+            "story_flow": rating.story_flow,
+            "dead_moments": rating.dead_moments,
+            "logical_character_choices": rating.logical_character_choices,
+            "fights": rating.fights,
+            "character_design": rating.character_design,
+            "ending": rating.ending,
         })
     except Rating.DoesNotExist:
         return Response({"error": "Rating not found"}, status=404)
@@ -151,9 +193,23 @@ class SaveRatingView(APIView):
         rating, created = Rating.objects.get_or_create(user=user, anime=anime)
 
         # Aggiorna i voti
-        rating.parameter1 = data.get("parameter1", rating.parameter1)
-        rating.parameter2 = data.get("parameter2", rating.parameter2)
-        rating.parameter3 = data.get("parameter3", rating.parameter3)
+        rating.intro = data.get("intro", rating.intro)
+        rating.soundtrack = data.get("soundtrack", rating.soundtrack)
+        rating.plot = data.get("plot", rating.plot)
+        rating.animations = data.get("animations", rating.animations)
+        rating.unpredictability = data.get("unpredictability", rating.unpredictability)
+        rating.protagonist = data.get("protagonist", rating.protagonist)
+        rating.secondary_characters = data.get("secondary_characters", rating.secondary_characters)
+        rating.plot_armor = data.get("plot_armor", rating.plot_armor)
+        rating.character_development = data.get("character_development", rating.character_development)
+        rating.villains = data.get("villains", rating.villains)
+        rating.japanese_awkwardness = data.get("japanese_awkwardness", rating.japanese_awkwardness)
+        rating.story_flow = data.get("story_flow", rating.story_flow)
+        rating.dead_moments = data.get("dead_moments", rating.dead_moments)
+        rating.logical_character_choices = data.get("logical_character_choices", rating.logical_character_choices)
+        rating.fights = data.get("fights", rating.fights)
+        rating.character_design = data.get("character_design", rating.character_design)
+        rating.ending = data.get("ending", rating.ending)
         rating.save()
 
         return Response({"message": "Rating saved successfully."}, status=status.HTTP_200_OK)
@@ -165,9 +221,23 @@ class RatingDetailView(APIView):
         try:
             rating = Rating.objects.get(anime_id=anime_id, user_id=user_id)
             return Response({
-                "parameter1": rating.parameter1,
-                "parameter2": rating.parameter2,
-                "parameter3": rating.parameter3,
+                "intro": rating.intro,
+                "soundtrack": rating.soundtrack,
+                "plot": rating.plot,
+                "animations": rating.animations,
+                "unpredictability": rating.unpredictability,
+                "protagonist": rating.protagonist,
+                "secondary_characters": rating.secondary_characters,
+                "plot_armor": rating.plot_armor,
+                "character_development": rating.character_development,
+                "villains": rating.villains,
+                "japanese_awkwardness": rating.japanese_awkwardness,
+                "story_flow": rating.story_flow,
+                "dead_moments": rating.dead_moments,
+                "logical_character_choices": rating.logical_character_choices,
+                "fights": rating.fights,
+                "character_design": rating.character_design,
+                "ending": rating.ending,
             })
         except Rating.DoesNotExist:
             return Response({"error": "Rating not found."}, status=404)
