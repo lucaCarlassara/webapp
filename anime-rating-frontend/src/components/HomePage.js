@@ -41,25 +41,37 @@ function HomePage() {
 
             {/* Contenuto: Lista dei parametri */}
             <div className="ratings-container">
-                {["intro", "soundtrack", "plot", "animations", "unpredictability", "protagonist", "secondary_characters", "plot_armor", "character_development", "villains", "japanese_awkwardness", "story_flow", "dead_moments", "logical_character_choices", "fights", "character_design", "ending"].map((parameter) => (
-                <div key={parameter} className="parameter-section">
-                    <h2>{parameter.replace("_", " ").replace(/(^|\s)\S/g, (letter) => letter.toUpperCase())}</h2>
-                    <div className="anime-list">
-                        {animeRatings
-                            .sort((a, b) => b[parameter] - a[parameter]) // Ordina gli anime in base alla media dei voti per il parametro
-                            .map((anime) => (
-                                <div key={anime.id} className="anime-item">
-                                    <img
-                                        src={anime.image_url || "https://via.placeholder.com/100"}
-                                        alt={anime.title}
-                                        className="anime-image"
-                                    />
-                                    <p>{anime[parameter].toFixed(1)}</p>
+                {[
+                    "intro", "soundtrack", "plot", "animations", "unpredictability", 
+                    "protagonist", "secondary_characters", "plot_armor", "character_development", 
+                    "villains", "japanese_awkwardness", "story_flow", "dead_moments", 
+                    "logical_character_choices", "fights", "character_design", "ending"
+                ].map((parameter) => {
+                    // Filtra gli anime con media > 0 per il parametro corrente
+                    const filteredAnime = animeRatings.filter(anime => anime[parameter] > 0);
+
+                    return (
+                        filteredAnime.length > 0 && ( // Mostra la sezione solo se ci sono anime con voto > 0
+                            <div key={parameter} className="parameter-section">
+                                <h2>{parameter.replace("_", " ").replace(/(^|\s)\S/g, (letter) => letter.toUpperCase())}</h2>
+                                <div className="anime-list">
+                                    {filteredAnime
+                                        .sort((a, b) => b[parameter] - a[parameter]) // Ordina gli anime in base alla media dei voti per il parametro
+                                        .map((anime) => (
+                                            <div key={anime.id} className="anime-item">
+                                                <img
+                                                    src={anime.image_url || "https://via.placeholder.com/100"}
+                                                    alt={anime.title}
+                                                    className="anime-image"
+                                                />
+                                                <p>{anime[parameter].toFixed(1)}</p>
+                                            </div>
+                                        ))}
                                 </div>
-                            ))}
-                    </div>
-                </div>
-                ))}
+                            </div>
+                        )
+                    );
+                })}
             </div>
         </div>
     );
