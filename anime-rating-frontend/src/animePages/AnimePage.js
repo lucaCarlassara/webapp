@@ -181,16 +181,14 @@ function AnimePage() {
             <p className="anime-description">{anime.description}</p>
 
             {/* Parametri di valutazione */}
-            {["intro", "soundtrack", "plot", "animations", "unpredictability", "protagonist", "secondary_characters", "plot_armor", "character_development", "villains", "japanese_awkwardness", "story_flow", "dead_moments", "logical_character_choices", "fights", "character_design", "ending"].map((parameter, index) => (
+            {anime?.votable_parameters?.map((parameter) => (
                 <div key={parameter} className="rating-row">
                     <p>{parameter.replace("_", " ").replace(/(^|\s)\S/g, (letter) => letter.toUpperCase())}</p>
                     <div className="rating-options">
                         {[...Array(10).keys()].map((num) => (
                             <button
                                 key={num + 1}
-                                className={`rating-button ${
-                                    ratings[parameter] === num + 1 ? "selected" : ""
-                                }`}
+                                className={`rating-button ${ratings[parameter] === num + 1 ? "selected" : ""}`}
                                 onClick={() => isEditable && handleRating(parameter, num + 1)}
                                 disabled={!isEditable}
                             >
@@ -200,7 +198,6 @@ function AnimePage() {
                     </div>
                 </div>
             ))}
-
 
             {/* Pulsanti per salvare o modificare */}
             {isEditable ? (

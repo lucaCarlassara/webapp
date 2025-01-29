@@ -9,6 +9,7 @@ from rest_framework import status
 from .models import Rating, Anime
 from django.db.models import Avg
 from django.http import HttpResponse
+from .serializers import AnimeSerializer
 
 def home(request):
     return HttpResponse("Il backend è attivo e funzionante!")
@@ -108,7 +109,12 @@ def get_anime_list(request):
 def get_anime_details(request, anime_id):
     try:
         anime = Anime.objects.get(id=anime_id)
-        anime_data = {
+        anime_data = AnimeSerializer(anime).data
+
+        # Filtra solo i parametri votabili
+        votable_parameters = {key: value for key, value in anime_data.items() if isinstance(value, bool) and value}
+
+        response_data = {
             "id": anime.id,
             "title": anime.title,
             "description": anime.description,
@@ -119,8 +125,9 @@ def get_anime_details(request, anime_id):
             "status": anime.status,
             "duration": anime.duration,
             "typology": anime.typology,
+            "votable_parameters": list(votable_parameters.keys())  # Restituisce i nomi dei parametri votabili
         }
-        return Response(anime_data)
+        return Response(response_data)
     except Anime.DoesNotExist:
         return Response({"error": "Anime not found"}, status=404)
     
