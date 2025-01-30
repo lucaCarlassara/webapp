@@ -207,7 +207,7 @@ function AnimePage() {
                         Save
                     </button>
                 ) : (
-                    <button className="edit-button" onClick={handleEdit}>
+                    <button className="save-button" onClick={handleEdit}>
                         Modify
                     </button>
                 )}

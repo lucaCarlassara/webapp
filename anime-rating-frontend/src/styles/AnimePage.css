@@ -86,12 +86,16 @@
 }
 
 .save-button {
+    display: block; /* Assicura che il bottone occupi tutta la larghezza disponibile */
+    margin: 20px auto; /* Centra orizzontalmente e aggiunge spazio sopra e sotto */
     padding: 10px 20px;
     border: none;
     background-color: #007bff;
     color: #fff;
     border-radius: 4px;
     cursor: pointer;
+    font-weight: bold; /* Testo in grassetto */
+    text-align: center; /* Assicura l'allineamento del testo */
 }
 
 .success-checkmark {
