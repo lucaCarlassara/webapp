@@ -146,7 +146,7 @@ function AnimePage() {
     };
 
     if (!anime) {
-        return <p>Caricamento...</p>;
+        return <p>Loading...</p>;
     }
 
     return (
@@ -154,64 +154,67 @@ function AnimePage() {
             {/* Header con Hamburger Menu */}
             <div className="header">
                 <HamburgerMenu />
-                <h1 className="title">Area Personale</h1>
+                <h1 className="title">Personal Area</h1>
                 <Link to="/" className="home-link">
                     Home
                 </Link>
             </div>
-
-            {/* Contenuto */}
-            <div className="anime-info">
-                <img
-                    src={anime.image_url || "https://via.placeholder.com/150"}
-                    alt={anime.title}
-                    className="anime-image"
-                />
-                <div className="anime-details">
-                    <h2>{anime.title}</h2>
-                    <p>Anno: {anime.year}</p>
-                    <p>Genere: {anime.genre}</p>
-                    <p>Studio: {anime.studio}</p>
-                    <p>Durata: {anime.duration}</p>
-                    <p>Tipologia: {anime.typology}</p>
-                    <p>Stato: {anime.status}</p>
+            <div className="not-header">
+                {/* Titolo centrato */}
+                <div className="anime-title-container">
+                    <h1 className="anime-title">{anime.title}</h1>
                 </div>
-            </div>
-
-            <p className="anime-description">{anime.description}</p>
-
-            {/* Parametri di valutazione */}
-            {anime?.votable_parameters?.map((parameter) => (
-                <div key={parameter} className="rating-row">
-                    <p>{parameter.replace("_", " ").replace(/(^|\s)\S/g, (letter) => letter.toUpperCase())}</p>
-                    <div className="rating-options">
-                        {[...Array(10).keys()].map((num) => (
-                            <button
-                                key={num + 1}
-                                className={`rating-button ${ratings[parameter] === num + 1 ? "selected" : ""}`}
-                                onClick={() => isEditable && handleRating(parameter, num + 1)}
-                                disabled={!isEditable}
-                            >
-                                {num + 1}
-                            </button>
-                        ))}
+                <div className="anime-info">
+                    <img
+                        src={anime.image_url || "https://via.placeholder.com/150"}
+                        alt={anime.title}
+                        className="anime-image"
+                    />
+                    <div className="anime-details">
+                        <p><strong>Year:</strong> {anime.year}</p>
+                        <p><strong>Genre:</strong> {anime.genre}</p>
+                        <p><strong>Studio:</strong> {anime.studio}</p>
+                        <p><strong>Duration:</strong> {anime.duration}</p>
+                        <p><strong>Typology:</strong> {anime.typology}</p>
+                        <p><strong>Status:</strong> {anime.status}</p>
                     </div>
                 </div>
-            ))}
 
-            {/* Pulsanti per salvare o modificare */}
-            {isEditable ? (
-                <button className="save-button" onClick={handleSave}>
-                    Salva
-                </button>
-            ) : (
-                <button className="edit-button" onClick={handleEdit}>
-                    Modifica
-                </button>
-            )}
+                <p className="anime-description">{anime.description}</p>
 
-            {/* Spunta verde */}
-            {showSuccess && <div className="success-checkmark">✔</div>}
+                {/* Parametri di valutazione */}
+                {anime?.votable_parameters?.map((parameter) => (
+                    <div key={parameter} className="rating-row">
+                        <p><strong>{parameter.replace("_", " ").replace(/(^|\s)\S/g, (letter) => letter.toUpperCase())}</strong></p>
+                        <div className="rating-options">
+                            {[...Array(10).keys()].map((num) => (
+                                <button
+                                    key={num + 1}
+                                    className={`rating-button ${ratings[parameter] === num + 1 ? "selected" : ""}`}
+                                    onClick={() => isEditable && handleRating(parameter, num + 1)}
+                                    disabled={!isEditable}
+                                >
+                                    {num + 1}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                ))}
+
+                {/* Pulsanti per salvare o modificare */}
+                {isEditable ? (
+                    <button className="save-button" onClick={handleSave}>
+                        Save
+                    </button>
+                ) : (
+                    <button className="edit-button" onClick={handleEdit}>
+                        Modify
+                    </button>
+                )}
+
+                {/* Spunta verde */}
+                {showSuccess && <div className="success-checkmark">✔</div>}
+            </div>
         </div>
     );
 }

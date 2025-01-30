@@ -64,7 +64,7 @@ function PersonalArea() {
             {/* Header con Hamburger Menu */}
             <div className="header">
                 <HamburgerMenu />
-                <h1 className="title">Area Personale</h1>
+                <h1 className="title">Personal Area</h1>
                 <Link to="/home" className="home-link">
                     Home
                 </Link>
@@ -72,7 +72,7 @@ function PersonalArea() {
 
             {/* Nome utente */}
             <div className="user-info">
-                <p>Benvenuto, {username}!</p>
+                <p>Hello, {username}!</p>
             </div>
 
             {/* Bottoni per cambiare tab */}
@@ -81,13 +81,13 @@ function PersonalArea() {
                     className={`tab-button ${selectedTab === "voted" ? "active" : ""}`}
                     onClick={() => handleTabChange("voted")}
                 >
-                    Anime votati
+                    Voted anime
                 </button>
                 <button
                     className={`tab-button ${selectedTab === "toVote" ? "active" : ""}`}
                     onClick={() => handleTabChange("toVote")}
                 >
-                    Vota un anime
+                    Vota an anime
                 </button>
             </div>
 
@@ -102,7 +102,7 @@ function PersonalArea() {
                                 </div>
                             ))
                         ) : (
-                            <p>Non hai ancora votato nessun anime.</p>
+                            <p>You have yet to vote an anime.</p>
                         )}
                     </div>
                 )}
@@ -119,7 +119,7 @@ function PersonalArea() {
                                 </div>
                             ))
                         ) : (
-                            <p>Non ci sono anime disponibili da votare.</p>
+                            <p>There are no anime to vote.</p>
                         )}
                     </div>
                 )}

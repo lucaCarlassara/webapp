@@ -2,47 +2,62 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 10px;
+    padding: 1px;
+    margin: auto;
 }
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+.anime-title-container {
+    text-align: center;
+    margin-bottom: 6%; /* Ridotto dal 5% */
 }
 
-.title {
+.anime-title {
     font-size: 24px;
     font-weight: bold;
+    color: #333;
 }
 
-.home-link {
-    text-decoration: none;
-    color: #007bff;
-    font-weight: bold;
-    cursor: pointer;
+.not-header {
+    padding: 0 15px 15px; /* padding: alto 0, destra 15px, basso 15px, sinistra 15px */
 }
+
 
 .anime-info {
     display: flex;
+    align-items: center;
     margin-bottom: 20px;
+    gap: 20px;
 }
 
 .anime-image {
-    width: 150px;
-    height: 150px;
-    margin-right: 20px;
+    width: 40%;
+    height: auto;
     border-radius: 8px;
     object-fit: cover;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .anime-details {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+}
+
+.anime-details p {
+    margin: 0;
+    line-height: 1.4;
+    font-size: 16px;
 }
 
 .anime-description {
-    margin-bottom: 20px;
+    margin-top: 20px;
+    text-align: justify;
+    hyphens: auto;
+    line-height: 1.6;
+    font-size: 16px;
+    color: #333;
 }
 
 .rating-row {
@@ -52,10 +67,12 @@
 .rating-options {
     display: flex;
     gap: 5px;
+    justify-content: space-between; /* Distribuisce i pulsanti equamente */
+    width: 100%; /* Assicura che la riga riempia tutta la larghezza disponibile */
 }
 
 .rating-button {
-    padding: 5px 10px;
+    padding: 1% 2.5%;
     border: 1px solid #ccc;
     background-color: #f8f9fa;
     cursor: pointer;
