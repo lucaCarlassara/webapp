@@ -58,14 +58,15 @@ function HomePage() {
                                     {filteredAnime
                                         .sort((a, b) => b[parameter] - a[parameter]) // Ordina gli anime in base alla media dei voti per il parametro
                                         .map((anime) => (
-                                            <div key={anime.id} className="anime-item">
-                                                <img
-                                                    src={anime.image_url || "https://via.placeholder.com/100"}
-                                                    alt={anime.title}
-                                                    className="anime-image"
-                                                />
-                                                <p>{anime[parameter].toFixed(1)}</p>
-                                            </div>
+                                        <div key={anime.id} className="anime-item">
+                                            <p className="anime-score">{anime[parameter].toFixed(1)}</p> {/* Voto sopra l'immagine */}
+                                            <img
+                                                src={anime.image_url || "https://via.placeholder.com/100"}
+                                                alt={anime.title}
+                                                className="anime-image"
+                                            />
+                                            <p className="anime-title-home">{anime.title}</p> {/* Titolo sotto l'immagine */}
+                                        </div>
                                         ))}
                                 </div>
                             </div>

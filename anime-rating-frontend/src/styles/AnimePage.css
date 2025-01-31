@@ -45,6 +45,26 @@
     gap: 8px;
 }
 
+.anime-list {
+    display: flex; /* Passa da grid a flexbox */
+    flex-direction: row; /* Dispone gli elementi in orizzontale */
+    overflow-x: auto; /* Abilita lo scroll orizzontale */
+    white-space: nowrap; /* Impedisce la rottura di riga */
+}
+
+.anime-item {
+    flex: 0 0 auto; /* Mantiene le dimensioni degli elementi fisse */
+    text-align: center;
+    padding: 0.5rem;
+}
+
+.anime-image {
+    width: 150px; /* Imposta una larghezza fissa per le immagini */
+    height: 200px; /* Imposta un'altezza fissa */
+    object-fit: cover; /* Mantiene le proporzioni dell'immagine */
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+}
 .anime-details p {
     margin: 0;
     line-height: 1.4;

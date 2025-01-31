@@ -18,6 +18,47 @@
     box-sizing: border-box; /* Include padding nel calcolo della larghezza */
 }
 
+.anime-list {
+    display: flex; /* Passa da grid a flexbox */
+    flex-direction: row; /* Dispone gli elementi in orizzontale */
+    overflow-x: auto; /* Abilita lo scroll orizzontale */
+    white-space: nowrap; /* Impedisce la rottura di riga */
+}
+
+.anime-item {
+    flex: 0 0 auto; /* Mantiene le dimensioni degli elementi fisse */
+    text-align: center;
+    padding: 0.5rem;
+}
+
+.anime-title-home {
+    font-size: 14px; /* Dimensione del font */
+    font-weight: bold; /* Testo in grassetto */
+    text-align: center; /* Centra il testo */
+    margin-bottom: 0.5rem; /* Spazio tra il titolo e l'immagine */
+    word-wrap: break-word; /* Permette al testo di andare a capo */
+    overflow-wrap: anywhere; /* Forza il testo ad adattarsi */
+    white-space: normal; /* Permette al testo di andare a capo normalmente */
+    max-width: 150px; /* Larghezza massima uguale a quella dell'immagine */
+}
+
+.anime-image {
+    width: 150px; /* Imposta una larghezza fissa per le immagini */
+    height: 200px; /* Imposta un'altezza fissa */
+    object-fit: cover; /* Mantiene le proporzioni dell'immagine */
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+}
+
+.anime-list::-webkit-scrollbar {
+    height: 8px; /* Altezza della barra di scorrimento */
+}
+
+.anime-list::-webkit-scrollbar-thumb {
+    background-color: #ccc; /* Colore del cursore */
+    border-radius: 4px;
+}
+
 /* Titolo centrato */
 .title {
     font-size: 24px;
@@ -65,8 +106,6 @@
 .ratings-container {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
-    margin: 2rem;
     width: 100%; /* Usa tutto lo spazio disponibile */
 }
 
@@ -78,8 +117,6 @@
 .anime-list {
     display: grid; /* Usa un layout a griglia per adattarsi allo spazio */
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Aggiunge immagini in colonne adattive */
-    gap: 1rem;
-    padding: 1rem 0;
 }
 
 .anime-item {
