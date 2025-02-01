@@ -11,15 +11,15 @@ const parameterDescriptions = {
     soundtrack: "How well the soundtrack complements the anime.",
     plot: "Storyline depth, coherence, and overall engagement.",
     animations: "Quality of animation and visual aesthetics.",
-    unpredictability: "How unpredictable and exciting the story is.",
+    unpredictability: "How unpredictable the story is.",
     protagonist: "Character development and likability of the protagonist.",
     secondary_characters: "Depth and importance of supporting characters.",
-    plot_armor: "How realistically challenges affect the protagonist.",
+    plot_armor: "How much a fictional character is preserved from harm due to their necessity for the plot to proceed. The lower the score, the bigger the plot armor is.",
     character_development: "Growth and evolution of characters over time.",
     villains: "Complexity and impact of antagonists.",
-    japanese_awkwardness: "Presence of awkward or over-the-top Japanese tropes.",
+    japanese_awkwardness: "Presence of embarrassing or exaggerated Japanese clichés. The lower the score, the more clichés there are.",
     story_flow: "How smoothly and logically the story progresses.",
-    dead_moments: "Number of dull or slow-paced sections.",
+    dead_moments: "Number of dull or slow-paced sections. The higher the score the less dead moments there are ",
     logical_character_choices: "How logical the decisions of characters feel.",
     fights: "Engagement and choreography of fight scenes.",
     character_design: "Creativity and uniqueness of character appearances.",
@@ -88,7 +88,7 @@ function HomePage() {
                                     {filteredAnime
                                         .sort((a, b) => b[parameter] - a[parameter])
                                         .map((anime) => (
-                                            <div key={anime.id} className="anime-item">
+                                            <div key={anime.id} className="anime-item-home">
                                                 <p className="anime-score">
                                                     {anime[parameter].toFixed(1)}
                                                 </p>

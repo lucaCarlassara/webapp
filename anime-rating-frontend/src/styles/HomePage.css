@@ -25,10 +25,10 @@
     white-space: nowrap; /* Impedisce la rottura di riga */
 }
 
-.anime-item {
+.anime-item-home {
     flex: 0 0 auto; /* Mantiene le dimensioni degli elementi fisse */
     text-align: center;
-    padding: 0.5rem;
+    padding: 0 0.5rem 0.5rem; /* Padding: sopra (0), destra e sinistra (0.5rem), sotto (0.5rem) */
 }
 
 .anime-title-home {
@@ -142,7 +142,6 @@ h2 {
     display: flex;
     align-items: center; /* Vertically center the items */
     gap: 10px; /* Space between parameter name and button */
-    margin-bottom: 5px; /* Space below the header */
     margin-left: 2%;
 }
 

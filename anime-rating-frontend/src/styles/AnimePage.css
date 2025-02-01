@@ -129,12 +129,16 @@
 .parameter-header-personal {
     display: flex;
     align-items: center; /* Vertically center the items */
-    gap: 10px; /* Space between parameter name and button */
-    margin-bottom: 5px; /* Space below the header */
+    gap: 2%; /* Space between parameter name and button */
+    margin-bottom: 2%; /* Space below the header */
 }
 
 .not-header{
     padding: 2%;
+}
+
+.header-ratings {
+    background-color: #1e1e1e;
 }
 
 @keyframes fadeOut {
