@@ -16,11 +16,6 @@
     font-weight: bold;
 }
 
-.not-header {
-    padding: 0 15px 15px; /* padding: alto 0, destra 15px, basso 15px, sinistra 15px */
-}
-
-
 .anime-info {
     display: flex;
     align-items: center;
@@ -129,6 +124,17 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     animation: fadeOut 2s ease-in-out forwards;
     z-index: 1000;
+}
+
+.parameter-header-personal {
+    display: flex;
+    align-items: center; /* Vertically center the items */
+    gap: 10px; /* Space between parameter name and button */
+    margin-bottom: 5px; /* Space below the header */
+}
+
+.not-header{
+    padding: 2%;
 }
 
 @keyframes fadeOut {

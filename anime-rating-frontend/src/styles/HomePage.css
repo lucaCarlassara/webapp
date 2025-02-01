@@ -107,6 +107,7 @@
     display: flex;
     flex-direction: column;
     width: 100%; /* Usa tutto lo spazio disponibile */
+    padding: 2%;
 }
 
 .parameter-section {
@@ -135,5 +136,20 @@
 h2 {
     text-align: center; /* Centra il titolo */
     margin-bottom: 1rem;
+}
+
+.parameter-header {
+    display: flex;
+    align-items: center; /* Vertically center the items */
+    gap: 10px; /* Space between parameter name and button */
+    margin-bottom: 5px; /* Space below the header */
+    margin-left: 2%;
+}
+
+/* Parameter name */
+.parameter-name {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0; /* Remove default margin from h2 */
 }
 

@@ -1,109 +1,123 @@
-/* === MODALITÀ SCURA GLOBALE === */
-body.dark-mode {
+/* === FORCE DARK MODE === */
+body {
     background-color: #121212;
     color: #ffffff;
     transition: background-color 0.3s, color 0.3s;
 }
 
 /* Header */
-body.dark-mode .header {
+.header {
     background-color: #1e1e1e;
-    border-bottom: 1px solid #444;
+    border-bottom: 10px solid #121212;
 }
 
-/* Contenitore generale */
-body.dark-mode .container,
-body.dark-mode .personal-area-container,
-body.dark-mode .auth-container,
-body.dark-mode .anime-page-container {
+/* General Containers */
+.container,
+.personal-area-container,
+.auth-container,
+.anime-page-container {
     background-color: #121212;
     color: #ffffff;
 }
 
-/* Titoli e testi */
-body.dark-mode h1,
-body.dark-mode h2,
-body.dark-mode h3,
-body.dark-mode p,
-body.dark-mode span,
-body.dark-mode a {
+/* Text */
+h1, h2, h3, p, span, a {
     color: #ffffff !important;
 }
 
-/* Pulsanti */
-body.dark-mode .tab-button,
-body.dark-mode .rating-button,
-body.dark-mode .auth-button,
-body.dark-mode .logout-button {
+/* Buttons */
+.tab-button,
+.rating-button,
+.auth-button,
+.logout-button {
     background-color: #333;
     color: #fff !important;
     border: 1px solid #555;
     transition: background-color 0.3s;
 }
 
-body.dark-mode .tab-button:hover,
-body.dark-mode .rating-button:hover,
-body.dark-mode .auth-button:hover,
-body.dark-mode .logout-button:hover {
+.tab-button:hover,
+.rating-button:hover,
+.auth-button:hover,
+.logout-button:hover {
     background-color: #555;
 }
 
-/* Pulsante selezionato */
-body.dark-mode .rating-button.selected {
-    background-color: #ff9900 !important; /* Arancione */
-    color: #000 !important; /* Testo nero */
+/* Selected Button */
+.rating-button.selected {
+    background-color: #ff9900 !important;
+    color: #000 !important;
     border-color: #cc7700 !important;
 }
 
-/* Pulsante dark mode */
-.dark-mode-toggle {
-    padding: 10px 15px;
-    background-color: #333;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-body.dark-mode .dark-mode-toggle {
-    background-color: #555;
-}
-
-/* Immagini */
-body.dark-mode .anime-image {
+/* Images */
+.anime-image {
     box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
 }
 
-/* Campi di input */
-body.dark-mode input,
-body.dark-mode textarea {
+/* Input fields */
+input,
+textarea {
     background-color: #333;
     color: #ffffff !important;
     border: 1px solid #555;
 }
 
 /* Menu Hamburger */
-body.dark-mode .menu-button {
+.menu-button {
     color: #ffffff;
 }
 
-body.dark-mode .menu-content {
+.menu-content {
     background-color: #222;
     border: 1px solid #444;
     color: #ffffff;
 }
 
 /* Scrollbar */
-body.dark-mode ::-webkit-scrollbar {
+::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }
 
-body.dark-mode ::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
     background-color: #555;
     border-radius: 4px;
 }
 
-body.dark-mode ::-webkit-scrollbar-thumb:hover {
+::-webkit-scrollbar-thumb:hover {
     background-color: #777;
+}
+
+/* Help button (circular) */
+.help-button {
+    background-color: #444; /* Dark background for the button */
+    color: #fff; /* White question mark */
+    border: none; /* No border */
+    border-radius: 50%; /* Make it circular */
+    width: 24px; /* Set fixed width */
+    height: 24px; /* Set fixed height */
+    display: flex;
+    align-items: center; /* Center the "?" vertically */
+    justify-content: center; /* Center the "?" horizontally */
+    cursor: pointer; /* Pointer cursor */
+    font-size: 14px; /* Adjust the size of the "?" */
+    transition: background-color 0.3s ease;
+    margin-left: 5px; /* Small space from the parameter name */
+}
+
+.help-button:hover {
+    background-color: #555; /* Lighten background on hover */
+}
+
+/* Tooltip styling */
+.tooltip {
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 8px;
+    border-radius: 4px;
+    position: absolute;
+    z-index: 100;
+    max-width: 200px;
+    margin-top: 5px; /* Space between the tooltip and the button */
 }

@@ -6,25 +6,44 @@ import { AuthContext } from "../AuthContext";
 import axios from "axios";
 import config from "../config";
 
+const parameterDescriptions = {
+    intro: "Quality of the introduction and how engaging it is.",
+    soundtrack: "How well the soundtrack complements the anime.",
+    plot: "Storyline depth, coherence, and overall engagement.",
+    animations: "Quality of animation and visual aesthetics.",
+    unpredictability: "How unpredictable and exciting the story is.",
+    protagonist: "Character development and likability of the protagonist.",
+    secondary_characters: "Depth and importance of supporting characters.",
+    plot_armor: "How realistically challenges affect the protagonist.",
+    character_development: "Growth and evolution of characters over time.",
+    villains: "Complexity and impact of antagonists.",
+    japanese_awkwardness: "Presence of awkward or over-the-top Japanese tropes.",
+    story_flow: "How smoothly and logically the story progresses.",
+    dead_moments: "Number of dull or slow-paced sections.",
+    logical_character_choices: "How logical the decisions of characters feel.",
+    fights: "Engagement and choreography of fight scenes.",
+    character_design: "Creativity and uniqueness of character appearances.",
+    ending: "Satisfaction and closure provided by the ending."
+};
+
 function HomePage() {
     const { isAuthenticated, logout } = useContext(AuthContext);
     const [animeRatings, setAnimeRatings] = useState([]);
+    const [tooltip, setTooltip] = useState(null);
 
     useEffect(() => {
-        // Recupera i dati dei voti e calcola le medie
         axios
-            .get(`${config.backendUrl}/api/ratings-summary/`) // Usa l'URL del backend configurato
+            .get(`${config.backendUrl}/api/ratings-summary/`)
             .then((response) => {
                 setAnimeRatings(response.data);
             })
             .catch((error) => {
-                console.error("Errore nel recupero delle medie dei voti:", error);
+                console.error("Error fetching rating summary:", error);
             });
     }, []);
 
     return (
         <div className="container">
-            {/* Header */}
             <div className="header">
                 <HamburgerMenu />
                 <h1 className="title">Home Page</h1>
@@ -39,34 +58,50 @@ function HomePage() {
                 )}
             </div>
 
-            {/* Contenuto: Lista dei parametri */}
             <div className="ratings-container">
-                {[
-                    "intro", "soundtrack", "plot", "animations", "unpredictability", 
-                    "protagonist", "secondary_characters", "plot_armor", "character_development", 
-                    "villains", "japanese_awkwardness", "story_flow", "dead_moments", 
-                    "logical_character_choices", "fights", "character_design", "ending"
-                ].map((parameter) => {
-                    // Filtra gli anime con media > 0 per il parametro corrente
-                    const filteredAnime = animeRatings.filter(anime => anime[parameter] > 0);
+                {Object.keys(parameterDescriptions).map((parameter) => {
+                    const filteredAnime = animeRatings.filter((anime) => anime[parameter] > 0);
 
                     return (
-                        filteredAnime.length > 0 && ( // Mostra la sezione solo se ci sono anime con voto > 0
+                        filteredAnime.length > 0 && (
                             <div key={parameter} className="parameter-section">
-                                <h2>{parameter.replace("_", " ").replace(/(^|\s)\S/g, (letter) => letter.toUpperCase())}</h2>
+                                {/* Wrap parameter name and help button in a flex container */}
+                                <div className="parameter-header">
+                                    <h2 className="parameter-name">
+                                        {parameter
+                                            .replace("_", " ")
+                                            .replace(/(^|\s)\S/g, (letter) => letter.toUpperCase())}
+                                    </h2>
+                                    <button
+                                        className="help-button"
+                                        onClick={() =>
+                                            setTooltip(tooltip === parameter ? null : parameter)
+                                        }
+                                    >
+                                        ?
+                                    </button>
+                                </div>
+                                {tooltip === parameter && (
+                                    <div className="tooltip">{parameterDescriptions[parameter]}</div>
+                                )}
                                 <div className="anime-list">
                                     {filteredAnime
-                                        .sort((a, b) => b[parameter] - a[parameter]) // Ordina gli anime in base alla media dei voti per il parametro
+                                        .sort((a, b) => b[parameter] - a[parameter])
                                         .map((anime) => (
-                                        <div key={anime.id} className="anime-item">
-                                            <p className="anime-score">{anime[parameter].toFixed(1)}</p> {/* Voto sopra l'immagine */}
-                                            <img
-                                                src={anime.image_url || "https://via.placeholder.com/100"}
-                                                alt={anime.title}
-                                                className="anime-image"
-                                            />
-                                            <p className="anime-title-home">{anime.title}</p> {/* Titolo sotto l'immagine */}
-                                        </div>
+                                            <div key={anime.id} className="anime-item">
+                                                <p className="anime-score">
+                                                    {anime[parameter].toFixed(1)}
+                                                </p>
+                                                <img
+                                                    src={
+                                                        anime.image_url ||
+                                                        "https://via.placeholder.com/100"
+                                                    }
+                                                    alt={anime.title}
+                                                    className="anime-image"
+                                                />
+                                                <p className="anime-title-home">{anime.title}</p>
+                                            </div>
                                         ))}
                                 </div>
                             </div>

@@ -7,163 +7,114 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import config from "../config";
 
+/* Parameter Explanations */
+const parameterDescriptions = {
+    intro: "Quality of the introduction and how engaging it is.",
+    soundtrack: "How well the soundtrack complements the anime.",
+    plot: "Storyline depth, coherence, and overall engagement.",
+    animations: "Quality of animation and visual aesthetics.",
+    unpredictability: "How unpredictable and exciting the story is.",
+    protagonist: "Character development and likability of the protagonist.",
+    secondary_characters: "Depth and importance of supporting characters.",
+    plot_armor: "How realistically challenges affect the protagonist.",
+    character_development: "Growth and evolution of characters over time.",
+    villains: "Complexity and impact of antagonists.",
+    japanese_awkwardness: "Presence of awkward or over-the-top Japanese tropes.",
+    story_flow: "How smoothly and logically the story progresses.",
+    dead_moments: "Number of dull or slow-paced sections.",
+    logical_character_choices: "How logical the decisions of characters feel.",
+    fights: "Engagement and choreography of fight scenes.",
+    character_design: "Creativity and uniqueness of character appearances.",
+    ending: "Satisfaction and closure provided by the ending."
+};
+
 function AnimePage() {
     const { id } = useParams();
     const [anime, setAnime] = useState(null);
-    const [ratings, setRatings] = useState({
-        intro: null,
-        soundtrack: null,
-        plot: null,
-        animations: null,
-        unpredictability: null,
-        protagonist: null,
-        secondary_characters: null,
-        plot_armor: null,
-        character_development: null,
-        villains: null,
-        japanese_awkwardness: null,
-        story_flow: null,
-        dead_moments: null,
-        logical_character_choices: null,
-        fights: null,
-        character_design: null,
-        ending: null,
-    });
+    const [ratings, setRatings] = useState({});
     const [isEditable, setIsEditable] = useState(false);
-    const [showSuccess, setShowSuccess] = useState(false); // Stato per la spunta verde
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [tooltip, setTooltip] = useState(null);
 
     useEffect(() => {
-        // Recupera i dettagli dell'anime
-        axios
-            .get(`${config.backendUrl}/api/animes/${id}/`)
-            .then((response) => {
-                setAnime(response.data);
-            })
-            .catch((error) => {
-                console.error("Errore nel recupero dell'anime:", error);
-            });
+        /* Fetch Anime Details */
+        axios.get(`${config.backendUrl}/api/animes/${id}/`)
+            .then(response => setAnime(response.data))
+            .catch(error => console.error("Error fetching anime:", error));
 
-        // Recupera i voti salvati per l'anime dell'utente
+        /* Fetch User Ratings */
         const token = localStorage.getItem("token");
         if (token) {
             const userId = jwtDecode(token).user_id;
-            axios
-                .get(`${config.backendUrl}/api/animes/${id}/ratings/${userId}/`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                })
-                .then((response) => {
-                    setRatings({
-                        intro: response.data.intro,
-                        soundtrack: response.data.soundtrack,
-                        plot: response.data.plot,
-                        animations: response.data.animations,
-                        unpredictability: response.data.unpredictability,
-                        protagonist: response.data.protagonist,
-                        secondary_characters: response.data.secondary_characters,
-                        plot_armor: response.data.plot_armor,
-                        character_development: response.data.character_development,
-                        villains: response.data.villains,
-                        japanese_awkwardness: response.data.japanese_awkwardness,
-                        story_flow: response.data.story_flow,
-                        dead_moments: response.data.dead_moments,
-                        logical_character_choices: response.data.logical_character_choices,
-                        fights: response.data.fights,
-                        character_design: response.data.character_design,
-                        ending: response.data.ending,
-                    });
+            axios.get(`${config.backendUrl}/api/animes/${id}/ratings/${userId}/`, {
+                headers: { Authorization: `Bearer ${token}` },
+            })
+                .then(response => {
+                    setRatings(response.data);
                     setIsEditable(false);
                 })
-                .catch((error) => {
+                .catch(error => {
                     if (error.response && error.response.status === 404) {
                         setIsEditable(true);
                     } else {
-                        console.error("Errore nel recupero delle votazioni:", error);
+                        console.error("Error fetching ratings:", error);
                     }
                 });
         }
     }, [id]);
 
+    /* Handle Rating Selection */
     const handleRating = (parameter, value) => {
-        setRatings((prevRatings) => ({
+        setRatings(prevRatings => ({
             ...prevRatings,
             [parameter]: value,
         }));
     };
 
+    /* Save Ratings */
     const handleSave = () => {
         const token = localStorage.getItem("token");
         if (!token) return;
-
         const userId = jwtDecode(token).user_id;
 
-        const data = {
-            intro: ratings.intro,
-            soundtrack: ratings.soundtrack,
-            plot: ratings.plot,
-            animations: ratings.animations,
-            unpredictability: ratings.unpredictability,
-            protagonist: ratings.protagonist,
-            secondary_characters: ratings.secondary_characters,
-            plot_armor: ratings.plot_armor,
-            character_development: ratings.character_development,
-            villains: ratings.villains,
-            japanese_awkwardness: ratings.japanese_awkwardness,
-            story_flow: ratings.story_flow,
-            dead_moments: ratings.dead_moments,
-            logical_character_choices: ratings.logical_character_choices,
-            fights: ratings.fights,
-            character_design: ratings.character_design,
-            ending: ratings.ending,
-        };
-
-        const endpoint = `${config.backendUrl}/api/animes/${id}/ratings/${userId}/`;
-        const method = isEditable ? "post" : "put";
-
         axios({
-            method: method,
-            url: method === "post" ? endpoint.replace(`/${userId}/`, "/") : endpoint,
-            data: data,
+            method: isEditable ? "post" : "put",
+            url: isEditable
+                ? `${config.backendUrl}/api/animes/${id}/ratings/`
+                : `${config.backendUrl}/api/animes/${id}/ratings/${userId}/`,
+            data: ratings,
             headers: { Authorization: `Bearer ${token}` },
         })
             .then(() => {
-                setShowSuccess(true); // Mostra la spunta verde
+                setShowSuccess(true);
                 setIsEditable(false);
-
-                // Nascondi la spunta dopo 2 secondi
-                setTimeout(() => {
-                    setShowSuccess(false);
-                }, 2000);
+                setTimeout(() => setShowSuccess(false), 2000);
             })
-            .catch((error) => {
-                console.error("Errore nel salvataggio o aggiornamento delle votazioni:", error);
-            });
+            .catch(error => console.error("Error saving ratings:", error));
     };
 
-    const handleEdit = () => {
-        setIsEditable(true);
-    };
+    /* Toggle Edit Mode */
+    const handleEdit = () => setIsEditable(true);
 
-    if (!anime) {
-        return <p>Loading...</p>;
-    }
+    /* If Anime Data is Not Available */
+    if (!anime) return <p>Loading...</p>;
 
     return (
         <div className="anime-page-container">
-            {/* Header con Hamburger Menu */}
+            {/* Header */}
             <div className="header">
                 <HamburgerMenu />
-                <h1 className="title">Personal Area</h1>
-                <Link to="/" className="home-link">
-                    Home
-                </Link>
+                <h1 className="title">Anime Details</h1>
+                <Link to="/" className="home-link">Home</Link>
             </div>
+
             <div className="not-header">
-                {/* Titolo centrato */}
+                {/* Anime Title */}
                 <div className="anime-title-container">
                     <h1 className="anime-title">{anime.title}</h1>
                 </div>
+
+                {/* Anime Image & Details */}
                 <div className="anime-info">
                     <img
                         src={anime.image_url || "https://via.placeholder.com/150"}
@@ -180,12 +131,30 @@ function AnimePage() {
                     </div>
                 </div>
 
+                {/* Anime Description */}
                 <p className="anime-description">{anime.description}</p>
 
-                {/* Parametri di valutazione */}
+                {/* Rating Parameters */}
                 {anime?.votable_parameters?.map((parameter) => (
                     <div key={parameter} className="rating-row">
-                        <p><strong>{parameter.replace("_", " ").replace(/(^|\s)\S/g, (letter) => letter.toUpperCase())}</strong></p>
+                        <div className="parameter-header-personal">
+                                    <h2 className="parameter-name">
+                                        {parameter
+                                            .replace("_", " ")
+                                            .replace(/(^|\s)\S/g, (letter) => letter.toUpperCase())}
+                                    </h2>
+                                    <button
+                                        className="help-button"
+                                        onClick={() =>
+                                            setTooltip(tooltip === parameter ? null : parameter)
+                                        }
+                                    >
+                                        ?
+                                    </button>
+                                </div>
+                        {tooltip === parameter && (
+                            <div className="tooltip">{parameterDescriptions[parameter]}</div>
+                        )}
                         <div className="rating-options">
                             {[...Array(10).keys()].map((num) => (
                                 <button
@@ -201,18 +170,14 @@ function AnimePage() {
                     </div>
                 ))}
 
-                {/* Pulsanti per salvare o modificare */}
+                {/* Save/Modify Buttons */}
                 {isEditable ? (
-                    <button className="save-button" onClick={handleSave}>
-                        Save
-                    </button>
+                    <button className="save-button" onClick={handleSave}>Save</button>
                 ) : (
-                    <button className="save-button" onClick={handleEdit}>
-                        Modify
-                    </button>
+                    <button className="save-button" onClick={handleEdit}>Modify</button>
                 )}
 
-                {/* Spunta verde */}
+                {/* Success Checkmark */}
                 {showSuccess && <div className="success-checkmark">✔</div>}
             </div>
         </div>
