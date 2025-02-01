@@ -27,7 +27,6 @@ function AuthPage() {
             const token = response.data.access;
             const decoded = jwtDecode(token);
             login(token, decoded.username);
-            alert("Login effettuato con successo!");
             navigate("/personal-area", { replace: true });
         } catch (error) {
             const errorMessage = error.response?.data?.detail || "Errore durante il login. Riprova!";
@@ -58,7 +57,6 @@ function AuthPage() {
             const token = response.data.access;
             const decoded = jwtDecode(token);
             login(token, decoded.username);
-            alert("Registrazione e login effettuati con successo!");
             navigate("/personal-area", { replace: true });
         } catch (error) {
             const errorMessage = error.response?.data?.detail || "Errore durante la registrazione. Riprova!";
