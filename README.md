@@ -16,11 +16,11 @@ per aggiungere anime
 - http://127.0.0.1:8000/admin/
 
 installare la roba
--creare un ambiente virtuale per il backend
---entrare in anime_rating_backend
---python -m venv venv
---venv\Scripts\activate
---pip install -r requirements.txt
---cecklist "far partire il backend"
---se in qualsiasi momento ti da robe che non riesci a capire che cazzo è fai: Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
--per il frontend non mi ricordo come ho fatto, forse uguale boh
+- creare un ambiente virtuale per il backend
+-- entrare in anime_rating_backend
+-- python -m venv venv
+-- venv\Scripts\activate
+-- pip install -r requirements.txt
+-- cecklist "far partire il backend"
+-- se in qualsiasi momento ti da robe che non riesci a capire che cazzo è fai: Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+- per il frontend non mi ricordo come ho fatto, forse uguale boh
