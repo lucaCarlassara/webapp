@@ -139,9 +139,23 @@ def user_animes(request, user_id):
     # Anime da votare
     to_vote = Anime.objects.exclude(rating__user_id=user_id)
 
-    # Serializza i dati
-    voted_data = [{"id": anime.id, "title": anime.title} for anime in voted]
-    to_vote_data = [{"id": anime.id, "title": anime.title} for anime in to_vote]
+    # Serializza i dati con l'image_url incluso
+    voted_data = [
+        {
+            "id": anime.id,
+            "title": anime.title,
+            "image_url": anime.image_url  # Include image_url
+        }
+        for anime in voted
+    ]
+    to_vote_data = [
+        {
+            "id": anime.id,
+            "title": anime.title,
+            "image_url": anime.image_url  # Include image_url
+        }
+        for anime in to_vote
+    ]
 
     return Response({
         "voted": voted_data,

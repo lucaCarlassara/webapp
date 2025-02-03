@@ -8,32 +8,32 @@ import config from "../config";
 
 function PersonalArea() {
     const [selectedTab, setSelectedTab] = useState("voted");
-    const [animeVoted, setAnimeVoted] = useState([]); // Lista degli anime votati
-    const [animeToVote, setAnimeToVote] = useState([]); // Lista degli anime da votare
-    const [username, setUsername] = useState(""); // Stato per il nome utente
+    const [animeVoted, setAnimeVoted] = useState([]);
+    const [animeToVote, setAnimeToVote] = useState([]);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [username, setUsername] = useState("");
     const navigate = useNavigate();
 
-    // Decodifica il token JWT per ottenere il nome utente
+    // Decode the JWT token to get the username
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (token) {
             try {
-                const decoded = jwtDecode(token); // Decodifica il token JWT
-                setUsername(decoded.username); // Imposta il nome utente
+                const decoded = jwtDecode(token);
+                setUsername(decoded.username);
             } catch (error) {
-                console.error("Errore nella decodifica del token:", error);
+                console.error("Error decoding token:", error);
             }
         }
     }, []);
 
-    // Recupera gli anime votati e da votare per l'utente corrente
+    // Fetch voted and to-vote anime for the current user
     useEffect(() => {
         const token = localStorage.getItem("token");
 
         if (token) {
             const userId = jwtDecode(token).user_id;
 
-            // Interroga il backend per ottenere le liste degli anime
             axios
                 .get(`${config.backendUrl}/api/user-animes/${userId}/`, {
                     headers: {
@@ -42,26 +42,36 @@ function PersonalArea() {
                 })
                 .then((response) => {
                     const { voted, to_vote } = response.data;
-                    setAnimeVoted(voted); // Imposta gli anime votati
-                    setAnimeToVote(to_vote); // Imposta gli anime da votare
+                    setAnimeVoted(voted.sort((a, b) => a.title.localeCompare(b.title)));
+                    setAnimeToVote(to_vote.sort((a, b) => a.title.localeCompare(b.title)));
                 })
                 .catch((error) => {
-                    console.error("Errore nel caricamento degli anime:", error);
+                    console.error("Error loading anime lists:", error);
                 });
         }
     }, []);
 
     const handleTabChange = (tab) => {
         setSelectedTab(tab);
+        setSearchQuery("");
     };
 
     const handleAnimeClick = (animeId) => {
-        navigate(`/anime/${animeId}`); // Naviga alla pagina dell'anime specifico
+        navigate(`/anime/${animeId}`);
     };
+
+    const filteredAnime =
+        selectedTab === "voted"
+            ? animeVoted.filter((anime) =>
+                  anime.title.toLowerCase().includes(searchQuery.toLowerCase())
+              )
+            : animeToVote.filter((anime) =>
+                  anime.title.toLowerCase().includes(searchQuery.toLowerCase())
+              );
 
     return (
         <div className="personal-area-container">
-            {/* Header con Hamburger Menu */}
+            {/* Header with Hamburger Menu */}
             <div className="header">
                 <HamburgerMenu />
                 <h1 className="title">Personal Area</h1>
@@ -70,60 +80,65 @@ function PersonalArea() {
                 </Link>
             </div>
 
-            {/* Nome utente */}
+            {/* User info */}
             <div className="user-info">
                 <p>Hello, {username}!</p>
             </div>
 
-            {/* Bottoni per cambiare tab */}
+            {/* Tab buttons */}
             <div className="tab-buttons">
                 <button
                     className={`tab-button ${selectedTab === "voted" ? "active" : ""}`}
                     onClick={() => handleTabChange("voted")}
                 >
-                    Voted anime
+                    Voted Anime
                 </button>
                 <button
                     className={`tab-button ${selectedTab === "toVote" ? "active" : ""}`}
                     onClick={() => handleTabChange("toVote")}
                 >
-                    Vota an anime
+                    Anime to Vote
                 </button>
             </div>
 
-            {/* Contenuto */}
+            {/* Search bar */}
+            <div className="search-bar">
+                <input
+                    type="text"
+                    placeholder="Search anime..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
+            </div>
+
+            {/* Anime list */}
             <div className="content-container">
-                {selectedTab === "voted" && (
-                    <div className="anime-voted-list">
-                        {animeVoted.length > 0 ? (
-                            animeVoted.map((anime) => (
-                                <div key={anime.id} className="anime-item" onClick={() => handleAnimeClick(anime.id)}>
-                                    {anime.title}
-                                </div>
-                            ))
-                        ) : (
-                            <p>You have yet to vote an anime.</p>
-                        )}
-                    </div>
-                )}
-                {selectedTab === "toVote" && (
-                    <div className="anime-to-vote-list">
-                        {animeToVote.length > 0 ? (
-                            animeToVote.map((anime) => (
-                                <div
-                                    key={anime.id}
-                                    className="anime-item"
-                                    onClick={() => handleAnimeClick(anime.id)}
-                                >
-                                    {anime.title}
-                                </div>
-                            ))
-                        ) : (
-                            <p>There are no anime to vote.</p>
-                        )}
-                    </div>
+                {filteredAnime.length > 0 ? (
+                    filteredAnime.map((anime) => {
+                        return (
+                            <div
+                                key={anime.id}
+                                className="anime-item"
+                                onClick={() => handleAnimeClick(anime.id)}
+                            >
+                                <img
+                                    src={
+                                        anime.image_url?.startsWith("http")
+                                            ? anime.image_url
+                                            : "https://via.placeholder.com/100"
+                                    }
+                                    alt={anime.title}
+                                    className="anime-image"
+                                />
+                                <p className="anime-title">{anime.title}</p>
+                            </div>
+                        );
+                    })
+                ) : (
+                    <p>No anime found.</p>
                 )}
             </div>
+
         </div>
     );
 }
