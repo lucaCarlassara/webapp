@@ -19,7 +19,7 @@ const parameterDescriptions = {
     villains: "Complexity and impact of antagonists.",
     japanese_awkwardness: "Presence of embarrassing or exaggerated Japanese clichés. The lower the score, the more clichés there are.",
     story_flow: "How smoothly and logically the story progresses.",
-    dead_moments: "Number of dull or slow-paced sections. The higher the score the less dead moments there are ",
+    dead_moments: "Number of dull or slow-paced sections. The higher the score the less dead moments there are.",
     logical_character_choices: "How logical the decisions of characters feel.",
     fights: "Engagement and choreography of fight scenes.",
     character_design: "Creativity and uniqueness of character appearances.",
@@ -30,6 +30,7 @@ function HomePage() {
     const { isAuthenticated, logout } = useContext(AuthContext);
     const [animeRatings, setAnimeRatings] = useState([]);
     const [tooltip, setTooltip] = useState(null);
+    const [showTutorial, setShowTutorial] = useState(true); // Controls the tutorial popup
 
     useEffect(() => {
         axios
@@ -44,6 +45,31 @@ function HomePage() {
 
     return (
         <div className="container">
+            {/* Tutorial Popup */}
+            {showTutorial && (
+                <div className="tutorial-modal">
+                    <div className="tutorial-content">
+                        <button
+                            className="close-button"
+                            onClick={() => setShowTutorial(false)}
+                        >
+                            ✖
+                        </button>
+                        <h2>Welcome to Anime Ratings!</h2>
+                        <p>
+                            This platform allows you to browse, rate, and explore your favorite
+                            anime. Each parameter helps you evaluate various aspects of an anime,
+                            such as plot, character development, and more.
+                        </p>
+                        <p>
+                            Use the rating buttons to score different aspects. The ratings from all 
+                            users are used to calculate the average and display it on the homepage.
+                        </p>
+                        <p>Click on the question mark (?) next to each parameter for details.</p>
+                    </div>
+                </div>
+            )}
+
             <div className="header">
                 <HamburgerMenu />
                 <h1 className="title">Home Page</h1>

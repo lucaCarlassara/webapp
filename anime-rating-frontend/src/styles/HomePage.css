@@ -107,7 +107,7 @@
     display: flex;
     flex-direction: column;
     width: 100%; /* Usa tutto lo spazio disponibile */
-    padding: 2%;
+    padding: 4% 2% 2% 2%; /* 4% sopra, 2% destra, 2% sotto, 2% sinistra */
 }
 
 .parameter-section {
@@ -151,4 +151,58 @@ h2 {
     font-weight: bold;
     margin: 0; /* Remove default margin from h2 */
 }
+
+/* Tutorial Modal */
+.tutorial-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.tutorial-content {
+    background-color: #1e1e1e; /* Dark background */
+    color: #fff; /* White text */
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.tutorial-content h2 {
+    margin-bottom: 15px;
+    font-size: 24px;
+}
+
+.tutorial-content p {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+/* Close Button */
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close-button:hover {
+    color: #ff5555; /* Red hover effect */
+}
+
 
