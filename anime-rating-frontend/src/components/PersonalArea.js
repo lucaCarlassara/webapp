@@ -14,7 +14,6 @@ function PersonalArea() {
     const [username, setUsername] = useState("");
     const navigate = useNavigate();
 
-    // Decode the JWT token to get the username
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (token) {
@@ -27,7 +26,6 @@ function PersonalArea() {
         }
     }, []);
 
-    // Fetch voted and to-vote anime for the current user
     useEffect(() => {
         const token = localStorage.getItem("token");
 
@@ -70,76 +68,81 @@ function PersonalArea() {
               );
 
     return (
-        <div className="personal-area-container">
-            {/* Header with Hamburger Menu */}
-            <div className="header">
-                <HamburgerMenu />
-                <h1 className="title">Personal Area</h1>
-                <Link to="/home" className="home-link">
-                    Home
-                </Link>
-            </div>
+        <>
+            {/* Meta tag per SEO */}
+            <meta
+                name="description"
+                content="Explore your personal anime list. View anime you've voted for or find anime to rate and contribute to the global average score."
+            />
+            <div className="personal-area-container">
+                {/* Header */}
+                <header className="header">
+                    <HamburgerMenu />
+                    <h1 className="title">Personal Area</h1>
+                    <Link to="/home" className="home-link" aria-label="Go to Home Page">
+                        Home
+                    </Link>
+                </header>
 
-            {/* User info */}
-            <div className="user-info">
-                <p>Hello, {username}!</p>
-            </div>
+                <main>
+                    {/* User info */}
+                    <section className="user-info">
+                        <h2>Hello, {username}!</h2>
+                    </section>
 
-            {/* Tab buttons */}
-            <div className="tab-buttons">
-                <button
-                    className={`tab-button ${selectedTab === "voted" ? "active" : ""}`}
-                    onClick={() => handleTabChange("voted")}
-                >
-                    Voted Anime
-                </button>
-                <button
-                    className={`tab-button ${selectedTab === "toVote" ? "active" : ""}`}
-                    onClick={() => handleTabChange("toVote")}
-                >
-                    Anime to Vote
-                </button>
-            </div>
+                    {/* Tab buttons */}
+                    <nav className="tab-buttons" aria-label="Anime tabs">
+                        <button
+                            className={`tab-button ${selectedTab === "voted" ? "active" : ""}`}
+                            onClick={() => handleTabChange("voted")}
+                        >
+                            Voted Anime
+                        </button>
+                        <button
+                            className={`tab-button ${selectedTab === "toVote" ? "active" : ""}`}
+                            onClick={() => handleTabChange("toVote")}
+                        >
+                            Anime to Vote
+                        </button>
+                    </nav>
 
-            {/* Search bar */}
-            <div className="search-bar">
-                <input
-                    type="text"
-                    placeholder="Search anime..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                />
-            </div>
+                    {/* Search bar */}
+                    <section className="search-bar" aria-label="Search for anime">
+                        <input
+                            type="text"
+                            placeholder="Search anime..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            aria-label="Search anime input"
+                        />
+                    </section>
 
-            {/* Anime list */}
-            <div className="content-container">
-                {filteredAnime.length > 0 ? (
-                    filteredAnime.map((anime) => {
-                        return (
-                            <div
-                                key={anime.id}
-                                className="anime-item"
-                                onClick={() => handleAnimeClick(anime.id)}
-                            >
-                                <img
-                                    src={
-                                        anime.image_url?.startsWith("http")
-                                            ? anime.image_url
-                                            : "https://via.placeholder.com/100"
-                                    }
-                                    alt={anime.title}
-                                    className="anime-image"
-                                />
-                                <p className="anime-title">{anime.title}</p>
-                            </div>
-                        );
-                    })
-                ) : (
-                    <p>No anime found.</p>
-                )}
+                    {/* Anime list */}
+                    <section className="content-container">
+                        {filteredAnime.length > 0 ? (
+                            filteredAnime.map((anime) => (
+                                <article
+                                    key={anime.id}
+                                    className="anime-item"
+                                    onClick={() => handleAnimeClick(anime.id)}
+                                    aria-label={`View details for ${anime.title}`}
+                                >
+                                    <img
+                                        loading="lazy"
+                                        src={anime.image_url}
+                                        alt={`Cover of ${anime.title}`}
+                                        className="anime-image"
+                                    />
+                                    <h3 className="anime-title">{anime.title}</h3>
+                                </article>
+                            ))
+                        ) : (
+                            <p>No anime found.</p>
+                        )}
+                    </section>
+                </main>
             </div>
-
-        </div>
+        </>
     );
 }
 

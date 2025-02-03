@@ -11,8 +11,7 @@
     display: flex;
     justify-content: space-between; /* Distribuisce gli elementi in modo uniforme */
     align-items: center; /* Allinea verticalmente gli elementi */
-    padding: 10px 15px; /* Spaziatura interna */
-    border-bottom: 1px solid #ccc; /* Bordo inferiore */
+    padding: 15px; /* Spaziatura interna */
     background-color: white; /* Colore di sfondo */
     width: 100%; /* Larghezza completa */
     box-sizing: border-box; /* Include padding nel calcolo della larghezza */
