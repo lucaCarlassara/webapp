@@ -140,7 +140,7 @@ function AnimePage() {
                         <div className="parameter-header-personal">
                                     <h2 className="parameter-name">
                                         {parameter
-                                            .replace("_", " ")
+                                            .replace(/_/g, " ")
                                             .replace(/(^|\s)\S/g, (letter) => letter.toUpperCase())}
                                     </h2>
                                     <button

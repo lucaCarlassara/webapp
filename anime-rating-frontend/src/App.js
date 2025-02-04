@@ -7,6 +7,7 @@ import PersonalArea from "./components/PersonalArea";
 import { AuthProvider } from "./AuthContext";
 import AttackOnTitan from "./animePages/AnimePage";
 import "./styles/global.css"; // Import global styles
+import AnimeVoteDetails from "./components/AnimeVoteDetails";
 
 function App() {
     useEffect(() => {
@@ -24,6 +25,7 @@ function App() {
                         <Route path="/personal-area" element={<PersonalArea />} />
                         <Route path="/anime/:id" element={<AttackOnTitan />} />
                         <Route path="/anime-list" element={<AnimeList />} /> {/* Nuova pagina */}
+                        <Route path="/anime-vote-details/:animeId" element={<AnimeVoteDetails />} />
                     </Routes>
                 </div>
             </Router>

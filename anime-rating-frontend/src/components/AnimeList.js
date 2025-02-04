@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import HamburgerMenu from "./HamburgerMenu";
 import "../styles/AnimeList.css";
 import axios from "axios";
@@ -13,15 +13,13 @@ function AnimeList() {
         totalUsers: 0,
         totalVotes: 0,
     });
+    const navigate = useNavigate();
 
     useEffect(() => {
-        // Fetch stats (total animes, users, votes)
         axios
             .get(`${config.backendUrl}/api/stats/`)
             .then((response) => setStats(response.data))
             .catch((error) => console.error("Error fetching stats:", error));
-
-        // Fetch anime list
         axios
             .get(`${config.backendUrl}/api/animes/`)
             .then((response) => setAnimeList(response.data.sort((a, b) => a.title.localeCompare(b.title))))
@@ -32,18 +30,17 @@ function AnimeList() {
         anime.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
+    const handleAnimeClick = (animeId) => {
+        navigate(`/anime-vote-details/${animeId}`);
+    };
+
     return (
         <div className="anime-list-container">
-            {/* Header */}
             <header className="header-list">
                 <HamburgerMenu />
                 <h1 className="title">Anime List</h1>
-                <Link to="/home" className="home-link" aria-label="Go to Home Page">
-                    Home
-                </Link>
+                <Link to="/home" className="home-link" aria-label="Go to Home Page">Home</Link>
             </header>
-
-            {/* Stats Section */}
             <section className="stats-section">
                 <div className="stat-item">
                     <h2 className="h2-list">Total Animes</h2>
@@ -58,8 +55,6 @@ function AnimeList() {
                     <p>{stats.totalVotes}</p>
                 </div>
             </section>
-
-            {/* Search Section */}
             <section className="search-section">
                 <input
                     type="text"
@@ -69,16 +64,22 @@ function AnimeList() {
                     aria-label="Search anime input"
                 />
             </section>
-
-            {/* Anime List Section */}
             <section className="anime-list-list">
                 {filteredAnime.length > 0 ? (
                     filteredAnime.map((anime) => (
-                        <div key={anime.id} className="anime-item-list">
+                        <div
+                            key={anime.id}
+                            className="anime-item-list"
+                            onClick={() => handleAnimeClick(anime.id)}
+                            role="button"
+                            tabIndex={0}
+                            onKeyPress={(e) => e.key === "Enter" && handleAnimeClick(anime.id)}
+                        >
                             <img
                                 src={anime.image_url}
                                 alt={`Cover of ${anime.title}`}
                                 className="anime-image-list"
+                                loading="lazy"
                             />
                             <p className="anime-title-list">{anime.title}</p>
                         </div>
