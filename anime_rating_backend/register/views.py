@@ -10,9 +10,22 @@ from .models import Rating, Anime
 from django.db.models import Avg
 from django.http import HttpResponse
 from .serializers import AnimeSerializer
+from django.contrib.auth.models import User
 
 def home(request):
     return HttpResponse("Il backend è attivo e funzionante!")
+
+@api_view(['GET'])
+def get_stats(request):
+    total_animes = Anime.objects.count()
+    total_users = User.objects.count()
+    total_votes = Rating.objects.count()
+
+    return Response({
+        "totalAnimes": total_animes,
+        "totalUsers": total_users,
+        "totalVotes": total_votes * 17,
+    })
 
 @api_view(['GET'])
 def ratings_summary(request):

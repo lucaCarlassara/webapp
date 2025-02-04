@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import HomePage from "./components/HomePage";
 import AuthPage from "./components/AuthPage";
+import AnimeList from "./components/AnimeList";
 import PersonalArea from "./components/PersonalArea";
 import { AuthProvider } from "./AuthContext";
 import AttackOnTitan from "./animePages/AnimePage";
@@ -22,6 +23,7 @@ function App() {
                         <Route path="/auth" element={<AuthPage />} />
                         <Route path="/personal-area" element={<PersonalArea />} />
                         <Route path="/anime/:id" element={<AttackOnTitan />} />
+                        <Route path="/anime-list" element={<AnimeList />} /> {/* Nuova pagina */}
                     </Routes>
                 </div>
             </Router>

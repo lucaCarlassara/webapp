@@ -51,7 +51,7 @@ h1, h2, h3, p, span, a {
 
 /* Images */
 .anime-image {
-    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px px rgba(255, 255, 255, 0.2);
 }
 
 /* Input fields */

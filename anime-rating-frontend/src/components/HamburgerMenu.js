@@ -12,9 +12,9 @@ function HamburgerMenu() {
         setIsOpen(!isOpen);
     };
 
-    const handleNavigation = (path) => {
-        if (path === "/personal-area" && !isAuthenticated) {
-            alert("Devi autenticarti prima di accedere all'area personale!");
+    const handleNavigation = (path, requireAuth = false) => {
+        if (requireAuth && !isAuthenticated) {
+            alert("Devi autenticarti prima di accedere a questa sezione!");
             navigate("/auth");
         } else {
             navigate(path);
@@ -33,7 +33,8 @@ function HamburgerMenu() {
                     <ul>
                         <li onClick={() => handleNavigation("/home")}>Home</li>
                         <li onClick={() => handleNavigation("/auth")}>Login / Registrazione</li>
-                        <li onClick={() => handleNavigation("/personal-area")}>Area Personale</li>
+                        <li onClick={() => handleNavigation("/personal-area", true)}>Area Personale</li>
+                        <li onClick={() => handleNavigation("/anime-list")}>Anime List</li>
                     </ul>
                 </div>
             )}
