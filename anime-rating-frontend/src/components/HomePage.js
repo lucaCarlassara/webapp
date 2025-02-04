@@ -73,10 +73,11 @@ function HomePage() {
                             such as plot, character development, and more.
                         </p>
                         <p>
-                            Use the rating buttons to score different aspects. The ratings from all 
-                            users are used to calculate the average and display it on the homepage.
+                            To vote for an anime, register or log in and click on an anime in the personal area.
                         </p>
-                        <p>Click on the question mark (?) next to each parameter for details.</p>
+                        <p>
+                            On the home page, the average scores of all users are calculated for each parameter and for each anime.
+                        </p>
                     </div>
                 </div>
             )}
