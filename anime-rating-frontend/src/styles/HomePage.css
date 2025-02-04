@@ -26,8 +26,12 @@
 
 .anime-item-home {
     flex: 0 0 auto; /* Mantiene le dimensioni degli elementi fisse */
-    text-align: center;
+    text-align: center; /* Allinea il testo al centro */
     padding: 0 0.5rem 0.5rem; /* Padding: sopra (0), destra e sinistra (0.5rem), sotto (0.5rem) */
+    display: flex; /* Imposta Flexbox */
+    flex-direction: column; /* Dispone gli elementi in colonna */
+    align-items: center; /* Centra il contenuto orizzontalmente */
+    justify-content: center; /* Centra il contenuto verticalmente */
 }
 
 .anime-title-home {
@@ -39,9 +43,10 @@
     overflow-wrap: anywhere; /* Forza il testo ad adattarsi */
     white-space: normal; /* Permette al testo di andare a capo normalmente */
     max-width: 150px; /* Larghezza massima uguale a quella dell'immagine */
+    height: 10%;
 }
 
-.anime-image {
+.anime-image-home {
     width: 150px; /* Imposta una larghezza fissa per le immagini */
     height: 200px; /* Imposta un'altezza fissa */
     object-fit: cover; /* Mantiene le proporzioni dell'immagine */

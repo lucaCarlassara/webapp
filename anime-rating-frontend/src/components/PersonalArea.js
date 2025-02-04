@@ -7,7 +7,7 @@ import axios from "axios";
 import config from "../config";
 
 function PersonalArea() {
-    const [selectedTab, setSelectedTab] = useState("voted");
+    const [selectedTab, setSelectedTab] = useState("toVote");
     const [animeVoted, setAnimeVoted] = useState([]);
     const [animeToVote, setAnimeToVote] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");

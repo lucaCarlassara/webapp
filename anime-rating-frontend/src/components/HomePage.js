@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/HomePage.css";
 import HamburgerMenu from "./HamburgerMenu";
 import { AuthContext } from "../AuthContext";
@@ -30,8 +30,9 @@ function HomePage() {
     const { isAuthenticated, logout } = useContext(AuthContext);
     const [animeRatings, setAnimeRatings] = useState([]);
     const [tooltip, setTooltip] = useState(null);
-    const [showTutorial, setShowTutorial] = useState(false); // Controls the tutorial popup
-    const [searchTerm, setSearchTerm] = useState(""); // Keeps track of search input
+    const [showTutorial, setShowTutorial] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios
@@ -44,7 +45,6 @@ function HomePage() {
             });
     }, []);
 
-    // Filter parameters based on search input and sort them alphabetically
     const filteredParameters = Object.keys(parameterDescriptions)
         .filter((parameter) =>
             parameter
@@ -53,6 +53,15 @@ function HomePage() {
                 .includes(searchTerm.toLowerCase())
         )
         .sort((a, b) => a.localeCompare(b));
+
+    const handleAnimeClick = (animeId) => {
+        if (isAuthenticated) {
+            navigate(`/anime/${animeId}`);
+        } else {
+            alert("You need to log in to access this feature.");
+            navigate("/auth");
+        }
+    };
 
     return (
         <div className="container">
@@ -121,12 +130,11 @@ function HomePage() {
                     return (
                         filteredAnime.length > 0 && (
                             <div key={parameter} className="parameter-section">
-                                {/* Wrap parameter name and help button in a flex container */}
                                 <div className="parameter-header">
                                     <h2 className="parameter-name">
                                         {parameter
-                                            .replace(/_/g, " ") // Replace underscores with spaces
-                                            .replace(/(^|\s)\S/g, (letter) => letter.toUpperCase()) // Capitalize words
+                                            .replace(/_/g, " ")
+                                            .replace(/(^|\s)\S/g, (letter) => letter.toUpperCase())
                                         }
                                     </h2>
                                     <button
@@ -145,17 +153,21 @@ function HomePage() {
                                     {filteredAnime
                                         .sort((a, b) => b[parameter] - a[parameter])
                                         .map((anime) => (
-                                            <div key={anime.id} className="anime-item-home">
+                                            <div
+                                                key={anime.id}
+                                                className="anime-item-home"
+                                                onClick={() => handleAnimeClick(anime.id)}
+                                                role="button"
+                                                tabIndex={0}
+                                                onKeyPress={(e) => e.key === "Enter" && handleAnimeClick(anime.id)}
+                                            >
                                                 <p className="anime-score">
                                                     {anime[parameter].toFixed(1)}
                                                 </p>
                                                 <img
-                                                    src={
-                                                        anime.image_url ||
-                                                        "https://via.placeholder.com/100"
-                                                    }
+                                                    src={anime.image_url || "https://via.placeholder.com/100"}
                                                     alt={anime.title}
-                                                    className="anime-image"
+                                                    className="anime-image-home"
                                                 />
                                                 <p className="anime-title-home">{anime.title}</p>
                                             </div>
