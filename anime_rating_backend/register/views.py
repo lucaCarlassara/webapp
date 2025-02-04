@@ -11,9 +11,18 @@ from django.db.models import Avg
 from django.http import HttpResponse
 from .serializers import AnimeSerializer
 from django.contrib.auth.models import User
+from django.db.models import Count
 
 def home(request):
     return HttpResponse("Il backend è attivo e funzionante!")
+
+@api_view(['GET'])
+def get_anime_vote_count(request, anime_id):
+    try:
+        vote_count = Rating.objects.filter(anime_id=anime_id).values("user_id").distinct().count()
+        return Response({"total_votes": vote_count})
+    except Anime.DoesNotExist:
+        return Response({"error": "Anime not found"}, status=404)
 
 @api_view(['GET'])
 def get_stats(request):

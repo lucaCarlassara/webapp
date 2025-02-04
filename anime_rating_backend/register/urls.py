@@ -17,4 +17,5 @@ urlpatterns = [
     path('animes/<int:anime_id>/ratings/<int:user_id>/', RatingDetailView.as_view(), name='rating-detail'),
     path("ratings-summary/", views.ratings_summary, name="ratings-summary"),
     path("stats/", get_stats, name="get_stats"),
+    path('animes/<int:anime_id>/vote-count/', views.get_anime_vote_count, name='get_anime_vote_count'),
 ]

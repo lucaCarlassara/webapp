@@ -1,0 +1,41 @@
+.title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.anime-details-section {
+    display: flex;
+    align-items: center;
+    margin: 0 3% 3%;
+    margin-top: 20px;
+}
+
+.anime-image-container {
+    flex: 1;
+}
+
+.anime-image {
+    width: 200px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.anime-info-container {
+    flex: 2;
+    padding-left: 20px;
+}
+
+.anime-name {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.vote-count {
+    font-size: 18px;
+    color: #ccc;
+    text-align: center; /* Allinea il testo al centro */
+}
+
