@@ -170,8 +170,7 @@ h2 {
     color: #fff; /* White text */
     padding: 20px;
     border-radius: 8px;
-    width: 90%;
-    max-width: 500px;
+    width: 80%;
     text-align: center;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     position: relative;
@@ -204,4 +203,40 @@ h2 {
     color: #ff5555; /* Red hover effect */
 }
 
+.how-it-works-search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.tutorial-button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    height: 40px; /* Altezza uniforme */
+    display: flex;
+    align-items: center; /* Centrare il testo verticalmente */
+    transition: background-color 0.3s ease;
+}
+
+.tutorial-button:hover {
+    background-color: #555;
+}
+
+.search-bar-home {
+    width: 60%;
+    max-width: 400px;
+    padding: 0 10px; /* Spaziatura interna laterale */
+    font-size: 16px;
+    height: 40px; /* Altezza uniforme */
+    border: 1px solid #555;
+    border-radius: 4px;
+    background-color: #222;
+    color: #fff;
+}
 

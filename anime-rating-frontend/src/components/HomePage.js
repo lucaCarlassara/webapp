@@ -30,7 +30,8 @@ function HomePage() {
     const { isAuthenticated, logout } = useContext(AuthContext);
     const [animeRatings, setAnimeRatings] = useState([]);
     const [tooltip, setTooltip] = useState(null);
-    const [showTutorial, setShowTutorial] = useState(true); // Controls the tutorial popup
+    const [showTutorial, setShowTutorial] = useState(false); // Controls the tutorial popup
+    const [searchTerm, setSearchTerm] = useState(""); // Keeps track of search input
 
     useEffect(() => {
         axios
@@ -42,6 +43,16 @@ function HomePage() {
                 console.error("Error fetching rating summary:", error);
             });
     }, []);
+
+    // Filter parameters based on search input and sort them alphabetically
+    const filteredParameters = Object.keys(parameterDescriptions)
+        .filter((parameter) =>
+            parameter
+                .replace(/_/g, " ")
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase())
+        )
+        .sort((a, b) => a.localeCompare(b));
 
     return (
         <div className="container">
@@ -70,6 +81,7 @@ function HomePage() {
                 </div>
             )}
 
+            {/* Header */}
             <div className="header">
                 <HamburgerMenu />
                 <h1 className="title">Home Page</h1>
@@ -79,13 +91,30 @@ function HomePage() {
                     </button>
                 ) : (
                     <Link to="/auth" className="login-link">
-                        Accedi
+                        Login
                     </Link>
                 )}
             </div>
 
+            {/* How It Works and Search Bar */}
+            <div className="how-it-works-search">
+                <button
+                    className="tutorial-button"
+                    onClick={() => setShowTutorial(true)}
+                >
+                    How Does It Work?
+                </button>
+                <input
+                    type="text"
+                    className="search-bar-home"
+                    placeholder="Search parameters..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
+            </div>
+
             <div className="ratings-container">
-                {Object.keys(parameterDescriptions).map((parameter) => {
+                {filteredParameters.map((parameter) => {
                     const filteredAnime = animeRatings.filter((anime) => anime[parameter] > 0);
 
                     return (
@@ -95,8 +124,9 @@ function HomePage() {
                                 <div className="parameter-header">
                                     <h2 className="parameter-name">
                                         {parameter
-                                            .replace("_", " ")
-                                            .replace(/(^|\s)\S/g, (letter) => letter.toUpperCase())}
+                                            .replace(/_/g, " ") // Replace underscores with spaces
+                                            .replace(/(^|\s)\S/g, (letter) => letter.toUpperCase()) // Capitalize words
+                                        }
                                     </h2>
                                     <button
                                         className="help-button"
