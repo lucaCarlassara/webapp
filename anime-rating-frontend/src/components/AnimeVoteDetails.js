@@ -4,24 +4,40 @@ import HamburgerMenu from "./HamburgerMenu";
 import "../styles/AnimeVoteDetails.css";
 import axios from "axios";
 import config from "../config";
+import { Bar } from "react-chartjs-2";
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
+
+// Registriamo i componenti di Chart.js
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 function AnimeVoteDetails() {
     const { animeId } = useParams();
     const [animeDetails, setAnimeDetails] = useState({});
     const [voteCount, setVoteCount] = useState(0);
+    const [voteDistribution, setVoteDistribution] = useState({});
 
     useEffect(() => {
         // Fetch anime details
         axios
             .get(`${config.backendUrl}/api/animes/${animeId}/`)
-            .then((response) => setAnimeDetails(response.data))
+            .then((response) => {
+                setAnimeDetails(response.data);
+            })
             .catch((error) => console.error("Error fetching anime details:", error));
-
+    
         // Fetch vote count
         axios
             .get(`${config.backendUrl}/api/animes/${animeId}/vote-count/`)
             .then((response) => setVoteCount(response.data.total_votes))
             .catch((error) => console.error("Error fetching vote count:", error));
+    
+        // Fetch vote distribution
+        axios
+            .get(`${config.backendUrl}/api/animes/${animeId}/vote-distribution/`)
+            .then((response) => {
+                setVoteDistribution(response.data.vote_distribution);
+            })
+            .catch((error) => console.error("Error fetching vote distribution:", error));
     }, [animeId]);
 
     return (
@@ -46,10 +62,67 @@ function AnimeVoteDetails() {
                 </div>
                 <div className="anime-info-container">
                     <h2 className="anime-name">{animeDetails.title || "Loading..."}</h2>
-                    <p className="vote-count">
-                        {voteCount} {voteCount === 1 ? "User" : "Users"} Voted
-                    </p>
+                    <p className="vote-count">{voteCount} {voteCount === 1 ? "User" : "Users"} Voted</p>
                 </div>
+            </section>
+
+            {/* Vote Distribution Section */}
+            <section className="vote-distribution-section">
+                <h2 className="h2-details">Vote Distribution</h2>
+                {animeDetails.votable_parameters && animeDetails.votable_parameters.length > 0 ? (
+                    animeDetails.votable_parameters.map((param) => (
+                        <div key={param} className="vote-chart">
+                            <h3 className="h3-details">{param.replace(/_/g, " ").toUpperCase()}</h3>
+                            <Bar
+                                data={{
+                                    labels: Array.from({ length: 10 }, (_, i) => i + 1),
+                                    datasets: [
+                                        {
+                                            label: "Number of Votes",
+                                            data: Array.from({ length: 10 }, (_, i) => voteDistribution[param]?.[i + 1] || 0),
+                                            backgroundColor: "rgba(75, 192, 192, 0.5)",
+                                            borderColor: "rgba(75, 192, 192, 1)",
+                                            borderWidth: 1,
+                                        },
+                                    ],
+                                }}
+                                options={{
+                                    responsive: true,
+                                    plugins: {
+                                        legend: { display: false },
+                                        title: { display: false },
+                                    },
+                                    scales: {
+                                        x: {
+                                            title: {
+                                                display: true,
+                                                text: "Vote Score",
+                                                color: "#fff",
+                                            },
+                                            ticks: {
+                                                color: "#fff",
+                                            },
+                                        },
+                                        y: {
+                                            beginAtZero: true,
+                                            ticks: {
+                                                stepSize: 1,
+                                                color: "#fff",
+                                            },
+                                            title: {
+                                                display: true,
+                                                text: "Number of Votes",
+                                                color: "#fff",
+                                            },
+                                        },
+                                    },
+                                }}
+                            />
+                        </div>
+                    ))
+                ) : (
+                    <p>No votable parameters available for this anime.</p>
+                )}
             </section>
         </div>
     );

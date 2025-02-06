@@ -39,3 +39,21 @@
     text-align: center; /* Allinea il testo al centro */
 }
 
+.vote-distribution-section {
+    padding: 20px;
+    background-color: #222;
+    border-radius: 8px;
+}
+
+.vote-chart {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.h2-details{
+    margin: 0px;
+}
+
+.h3-details{
+    text-align: left;
+}

@@ -17,6 +17,32 @@ def home(request):
     return HttpResponse("Il backend è attivo e funzionante!")
 
 @api_view(['GET'])
+def get_anime_vote_distribution(request, anime_id):
+    try:
+        anime = Anime.objects.get(id=anime_id)
+        anime_data = AnimeSerializer(anime).data
+
+        # Filtra solo i parametri votabili
+        votable_parameters = [key for key, value in anime_data.items() if isinstance(value, bool) and value]
+
+        vote_distribution = {}
+
+        # Calcola la distribuzione dei voti per ogni parametro votabile
+        for param in votable_parameters:
+            votes = (
+                Rating.objects.filter(anime_id=anime_id)
+                .values(param)
+                .annotate(count=Count(param))
+                .order_by(param)
+            )
+            vote_distribution[param] = {vote[param]: vote["count"] for vote in votes}
+
+        return Response({"vote_distribution": vote_distribution})
+
+    except Anime.DoesNotExist:
+        return Response({"error": "Anime not found"}, status=404)
+
+@api_view(['GET'])
 def get_anime_vote_count(request, anime_id):
     try:
         vote_count = Rating.objects.filter(anime_id=anime_id).values("user_id").distinct().count()

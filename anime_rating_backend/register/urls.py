@@ -6,6 +6,7 @@ from .views import SaveRatingView
 from . import views
 from .views import RatingDetailView
 from .views import get_stats
+from .views import get_anime_vote_distribution
 
 urlpatterns = [
     path('register/', register_user, name='register_user'),
@@ -18,4 +19,5 @@ urlpatterns = [
     path("ratings-summary/", views.ratings_summary, name="ratings-summary"),
     path("stats/", get_stats, name="get_stats"),
     path('animes/<int:anime_id>/vote-count/', views.get_anime_vote_count, name='get_anime_vote_count'),
+    path('animes/<int:anime_id>/vote-distribution/', get_anime_vote_distribution, name='anime_vote_distribution'),
 ]
