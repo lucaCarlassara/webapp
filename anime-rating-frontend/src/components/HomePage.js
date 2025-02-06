@@ -55,12 +55,7 @@ function HomePage() {
         .sort((a, b) => a.localeCompare(b));
 
     const handleAnimeClick = (animeId) => {
-        if (isAuthenticated) {
-            navigate(`/anime/${animeId}`);
-        } else {
-            alert("You need to log in to access this feature.");
-            navigate("/auth");
-        }
+        navigate(`/anime-vote-details/${animeId}`); // Reindirizza alla pagina AnimeVoteDetails con l'ID dell'anime
     };
 
     return (
