@@ -4,6 +4,7 @@ import HamburgerMenu from "./HamburgerMenu";
 import "../styles/AnimeList.css";
 import axios from "axios";
 import config from "../config";
+import Footer from "./Footer";
 
 function AnimeList() {
     const [animeList, setAnimeList] = useState([]);
@@ -88,6 +89,10 @@ function AnimeList() {
                     <p>No anime found.</p>
                 )}
             </section>
+            <div className="container">
+                {/* ...contenuto esistente... */}
+                <Footer />
+            </div>
         </div>
     );
 }

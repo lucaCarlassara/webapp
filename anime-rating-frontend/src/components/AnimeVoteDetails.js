@@ -6,6 +6,7 @@ import axios from "axios";
 import config from "../config";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
+import Footer from "./Footer";
 
 // Registriamo i componenti di Chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -80,8 +81,8 @@ function AnimeVoteDetails() {
             </section>
 
             {/* Vote Distribution Section */}
+            <h2 className="h2-details">Vote Distribution</h2>
             <section className="vote-distribution-section">
-                <h2 className="h2-details">Vote Distribution</h2>
                 {animeDetails.votable_parameters && animeDetails.votable_parameters.length > 0 ? (
                     animeDetails.votable_parameters.map((param) => (
                         <div key={param} className="vote-chart">
@@ -137,6 +138,10 @@ function AnimeVoteDetails() {
                     <p>No votable parameters available for this anime.</p>
                 )}
             </section>
+            <div className="container">
+                {/* ...contenuto esistente... */}
+                <Footer />
+            </div>
         </div>
     );
 }

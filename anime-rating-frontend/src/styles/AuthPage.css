@@ -56,7 +56,7 @@
     border-radius: 4px;
 }
 
-.auth-button {
+.auth-button-login {
     padding: 10px;
     color: white;
     background-color: #007BFF;
@@ -64,6 +64,17 @@
     border-radius: 4px;
     cursor: pointer;
     margin-top: 10px;
+}
+
+.auth-button-sign-up {
+    padding: 10px;
+    color: white;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 10.5%;
 }
 
 .auth-button:hover {

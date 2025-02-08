@@ -6,6 +6,7 @@ import "../styles/AnimePage.css";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import config from "../config";
+import Footer from "../components/Footer";
 
 /* Parameter Explanations */
 const parameterDescriptions = {
@@ -179,6 +180,10 @@ function AnimePage() {
 
                 {/* Success Checkmark */}
                 {showSuccess && <div className="success-checkmark">✔</div>}
+            </div>
+            <div className="container">
+                {/* ...contenuto esistente... */}
+                <Footer />
             </div>
         </div>
     );

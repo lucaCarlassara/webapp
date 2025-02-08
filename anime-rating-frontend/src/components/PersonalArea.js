@@ -5,6 +5,7 @@ import "../styles/PersonalArea.css";
 import HamburgerMenu from "./HamburgerMenu";
 import axios from "axios";
 import config from "../config";
+import Footer from "./Footer";
 
 function PersonalArea() {
     const [selectedTab, setSelectedTab] = useState("toVote");
@@ -141,6 +142,10 @@ function PersonalArea() {
                         )}
                     </section>
                 </main>
+                <div className="container">
+                    {/* ...contenuto esistente... */}
+                    <Footer />
+                </div>
             </div>
         </>
     );

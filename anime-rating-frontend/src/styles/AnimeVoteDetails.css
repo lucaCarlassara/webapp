@@ -6,10 +6,9 @@
 .anime-details-section {
     display: flex;
     align-items: center;
-    margin: 0 3% 3%;
+    margin: 0 3%;
     margin-top: 20px;
 }
-
 .anime-image-container {
     flex: 1;
 }
@@ -40,18 +39,21 @@
 }
 
 .vote-distribution-section {
-    padding: 20px;
-    background-color: #222;
+    padding: 0 20px 20px;
+    background-color: #121212;
     border-radius: 8px;
 }
+
 
 .vote-chart {
     margin-bottom: 30px;
     text-align: center;
 }
 
-.h2-details{
-    margin: 0px;
+.h2-details {
+    padding: 3%;
+    background-color: #222;
+    border-radius: 5px; /* Arrotonda gli angoli con un raggio di 8px */
 }
 
 .h3-details{

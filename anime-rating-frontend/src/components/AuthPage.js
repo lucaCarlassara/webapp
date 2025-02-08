@@ -6,6 +6,7 @@ import { AuthContext } from "../AuthContext";
 import HamburgerMenu from "./HamburgerMenu";
 import { jwtDecode } from "jwt-decode"; // Corretto import
 import config from "../config";
+import Footer from "./Footer";
 
 function AuthPage() {
     const [loginUsername, setLoginUsername] = useState("");
@@ -95,7 +96,7 @@ function AuthPage() {
                     className="input-field"
                     required
                 />
-                <button type="submit" className="auth-button">
+                <button type="submit" className="auth-button-login">
                     Login
                 </button>
             </form>
@@ -131,10 +132,14 @@ function AuthPage() {
                     className="input-field"
                     required
                 />
-                <button type="submit" className="auth-button">
+                <button type="submit" className="auth-button-sign-up">
                     Sign up
                 </button>
             </form>
+            <div className="container">
+                {/* ...contenuto esistente... */}
+                <Footer />
+            </div>
         </div>
     );
 }
