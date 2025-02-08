@@ -57,3 +57,15 @@
 .h3-details{
     text-align: left;
 }
+
+.average-score {
+    margin: 0;
+    text-align: center;
+}
+
+.score {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 5%;
+    text-align: center;
+}

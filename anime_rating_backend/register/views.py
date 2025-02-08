@@ -63,6 +63,40 @@ def get_stats(request):
     })
 
 @api_view(['GET'])
+def get_anime_average_score(request, anime_id):
+    try:
+        # Recupera l'anime specificato
+        anime = Anime.objects.get(id=anime_id)
+
+        # Ottieni i parametri votabili dall'anime
+        votable_parameters = [
+            "intro", "soundtrack", "plot", "animations", "unpredictability",
+            "protagonist", "secondary_characters", "plot_armor", "character_development",
+            "villains", "japanese_awkwardness", "story_flow", "dead_moments",
+            "logical_character_choices", "fights", "character_design", "ending"
+        ]
+
+        # Filtra i parametri votabili in base al modello Anime
+        votable_parameters = [param for param in votable_parameters if getattr(anime, param, False)]
+
+        # Recupera tutte le valutazioni per l'anime
+        ratings = Rating.objects.filter(anime_id=anime_id)
+
+        if not ratings.exists():
+            return Response({"error": "No ratings found for this anime."}, status=404)
+
+        # Calcola la media per i parametri votabili
+        avg_score = ratings.aggregate(**{f"{param}_avg": Avg(param) for param in votable_parameters})
+
+        # Calcola la media complessiva solo sui parametri votabili
+        total_avg = sum(value for value in avg_score.values() if value is not None) / len(votable_parameters)
+
+        return Response({"average_score": total_avg})
+
+    except Anime.DoesNotExist:
+        return Response({"error": "Anime not found"}, status=404)
+
+@api_view(['GET'])
 def ratings_summary(request):
     # Calcola le medie dei voti per ciascun parametro
     ratings = (

@@ -32,6 +32,7 @@ function HomePage() {
     const [tooltip, setTooltip] = useState(null);
     const [showTutorial, setShowTutorial] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
+    const [filteredAnime, setFilteredAnime] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -45,17 +46,19 @@ function HomePage() {
             });
     }, []);
 
-    const filteredParameters = Object.keys(parameterDescriptions)
-        .filter((parameter) =>
-            parameter
-                .replace(/_/g, " ")
-                .toLowerCase()
-                .includes(searchTerm.toLowerCase())
-        )
-        .sort((a, b) => a.localeCompare(b));
+    useEffect(() => {
+        if (searchTerm.trim() === "") {
+            setFilteredAnime([]);
+        } else {
+            const filtered = animeRatings.filter((anime) =>
+                anime.title.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            setFilteredAnime(filtered);
+        }
+    }, [searchTerm, animeRatings]);
 
     const handleAnimeClick = (animeId) => {
-        navigate(`/anime-vote-details/${animeId}`); // Reindirizza alla pagina AnimeVoteDetails con l'ID dell'anime
+        navigate(`/anime-vote-details/${animeId}`); // Redirect to AnimeVoteDetails page
     };
 
     return (
@@ -101,25 +104,44 @@ function HomePage() {
                 )}
             </div>
 
-            {/* How It Works and Search Bar */}
+            {/* Tutorial Button and Search Bar */}
             <div className="how-it-works-search">
+                <div className="search-container">
+                    <input
+                        type="text"
+                        className="search-bar-home"
+                        placeholder="Search anime..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    {filteredAnime.length > 0 && (
+                        <div className="dropdown-menu">
+                            {filteredAnime.map((anime) => (
+                                <div
+                                    key={anime.id}
+                                    className="dropdown-item"
+                                    onClick={() => handleAnimeClick(anime.id)}
+                                    role="button"
+                                    tabIndex={0}
+                                    onKeyPress={(e) => e.key === "Enter" && handleAnimeClick(anime.id)}
+                                >
+                                    {anime.title}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
                 <button
                     className="tutorial-button"
                     onClick={() => setShowTutorial(true)}
                 >
                     How Does It Work?
                 </button>
-                <input
-                    type="text"
-                    className="search-bar-home"
-                    placeholder="Search parameters..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                />
             </div>
 
+            {/* Anime Ratings by Parameter */}
             <div className="ratings-container">
-                {filteredParameters.map((parameter) => {
+                {Object.keys(parameterDescriptions).map((parameter) => {
                     const filteredAnime = animeRatings.filter((anime) => anime[parameter] > 0);
 
                     return (
@@ -129,8 +151,7 @@ function HomePage() {
                                     <h2 className="parameter-name">
                                         {parameter
                                             .replace(/_/g, " ")
-                                            .replace(/(^|\s)\S/g, (letter) => letter.toUpperCase())
-                                        }
+                                            .replace(/(^|\s)\S/g, (letter) => letter.toUpperCase())}
                                     </h2>
                                     <button
                                         className="help-button"

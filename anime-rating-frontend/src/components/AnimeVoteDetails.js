@@ -15,6 +15,7 @@ function AnimeVoteDetails() {
     const [animeDetails, setAnimeDetails] = useState({});
     const [voteCount, setVoteCount] = useState(0);
     const [voteDistribution, setVoteDistribution] = useState({});
+    const [averageScore, setAverageScore] = useState(null);
 
     useEffect(() => {
         // Fetch anime details
@@ -38,6 +39,12 @@ function AnimeVoteDetails() {
                 setVoteDistribution(response.data.vote_distribution);
             })
             .catch((error) => console.error("Error fetching vote distribution:", error));
+
+        // Fetch average score
+        axios
+            .get(`${config.backendUrl}/api/animes/${animeId}/average-score/`)
+            .then((response) => setAverageScore(response.data.average_score))
+            .catch((error) => console.error("Error fetching average score:", error));
     }, [animeId]);
 
     return (
@@ -61,7 +68,13 @@ function AnimeVoteDetails() {
                     />
                 </div>
                 <div className="anime-info-container">
-                    <h2 className="anime-name">{animeDetails.title || "Loading..."}</h2>
+                    {averageScore !== null && (
+                        <div className="average-score-container">
+                            <p className="average-score">Average Score:</p>
+                            <p className="score">{averageScore.toFixed(2)}</p>
+                            <h2 className="anime-name" style={{ textAlign: 'center', marginTop: '10px' }}>{animeDetails.title || "Loading..."}</h2>
+                        </div>
+                    )}
                     <p className="vote-count">{voteCount} {voteCount === 1 ? "User" : "Users"} Voted</p>
                 </div>
             </section>
@@ -96,7 +109,7 @@ function AnimeVoteDetails() {
                                         x: {
                                             title: {
                                                 display: true,
-                                                text: "Vote Score",
+                                                text: "Score",
                                                 color: "#fff",
                                             },
                                             ticks: {
