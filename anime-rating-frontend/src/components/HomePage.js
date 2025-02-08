@@ -6,6 +6,7 @@ import { AuthContext } from "../AuthContext";
 import axios from "axios";
 import config from "../config";
 import Footer from "./Footer";
+import ScrollToTopButton from "./ScrollToTopButton";
 
 const parameterDescriptions = {
     intro: "Quality of the introduction and how engaging it is.",
@@ -198,6 +199,10 @@ function HomePage() {
             <div className="container">
                 {/* ...contenuto esistente... */}
                 <Footer />
+            </div>
+            <div className="container">
+                {/* Contenuto della pagina */}
+                <ScrollToTopButton />
             </div>
         </div>
     );

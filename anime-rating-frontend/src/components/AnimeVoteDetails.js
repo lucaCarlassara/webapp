@@ -7,6 +7,7 @@ import config from "../config";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 import Footer from "./Footer";
+import ScrollToTopButton from "./ScrollToTopButton";
 
 // Registriamo i componenti di Chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -141,6 +142,10 @@ function AnimeVoteDetails() {
             <div className="container">
                 {/* ...contenuto esistente... */}
                 <Footer />
+            </div>
+            <div className="container">
+                {/* Contenuto della pagina */}
+                <ScrollToTopButton />
             </div>
         </div>
     );

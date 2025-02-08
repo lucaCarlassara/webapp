@@ -5,6 +5,7 @@ import "../styles/AnimeList.css";
 import axios from "axios";
 import config from "../config";
 import Footer from "./Footer";
+import ScrollToTopButton from "./ScrollToTopButton";
 
 function AnimeList() {
     const [animeList, setAnimeList] = useState([]);
@@ -92,6 +93,10 @@ function AnimeList() {
             <div className="container">
                 {/* ...contenuto esistente... */}
                 <Footer />
+            </div>
+            <div className="container">
+                {/* Contenuto della pagina */}
+                <ScrollToTopButton />
             </div>
         </div>
     );

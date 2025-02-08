@@ -7,6 +7,7 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import config from "../config";
 import Footer from "../components/Footer";
+import ScrollToTopButton from "../components/ScrollToTopButton";
 
 /* Parameter Explanations */
 const parameterDescriptions = {
@@ -184,6 +185,10 @@ function AnimePage() {
             <div className="container">
                 {/* ...contenuto esistente... */}
                 <Footer />
+            </div>
+            <div className="container">
+                {/* Contenuto della pagina */}
+                <ScrollToTopButton />
             </div>
         </div>
     );

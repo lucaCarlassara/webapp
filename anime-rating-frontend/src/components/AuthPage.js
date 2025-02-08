@@ -7,6 +7,7 @@ import HamburgerMenu from "./HamburgerMenu";
 import { jwtDecode } from "jwt-decode"; // Corretto import
 import config from "../config";
 import Footer from "./Footer";
+import ScrollToTopButton from "./ScrollToTopButton";
 
 function AuthPage() {
     const [loginUsername, setLoginUsername] = useState("");
@@ -139,6 +140,10 @@ function AuthPage() {
             <div className="container">
                 {/* ...contenuto esistente... */}
                 <Footer />
+            </div>
+            <div className="container">
+                {/* Contenuto della pagina */}
+                <ScrollToTopButton />
             </div>
         </div>
     );

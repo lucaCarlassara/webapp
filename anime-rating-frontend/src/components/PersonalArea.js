@@ -6,6 +6,7 @@ import HamburgerMenu from "./HamburgerMenu";
 import axios from "axios";
 import config from "../config";
 import Footer from "./Footer";
+import ScrollToTopButton from "./ScrollToTopButton";
 
 function PersonalArea() {
     const [selectedTab, setSelectedTab] = useState("toVote");
@@ -145,6 +146,10 @@ function PersonalArea() {
                 <div className="container">
                     {/* ...contenuto esistente... */}
                     <Footer />
+                </div>
+                <div className="container">
+                    {/* Contenuto della pagina */}
+                    <ScrollToTopButton />
                 </div>
             </div>
         </>
