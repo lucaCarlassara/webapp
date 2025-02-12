@@ -6,6 +6,7 @@ import axios from "axios";
 import config from "../config";
 import Footer from "./Footer";
 import ScrollToTopButton from "./ScrollToTopButton";
+import Breadcrumbs from "./Breadcrumbs";
 
 function AnimeList() {
     const [animeList, setAnimeList] = useState([]);
@@ -33,7 +34,7 @@ function AnimeList() {
     );
 
     const handleAnimeClick = (animeId) => {
-        navigate(`/anime-vote-details/${animeId}`);
+        navigate(`/anime-list/${animeId}`);
     };
 
     return (
@@ -43,6 +44,9 @@ function AnimeList() {
                 <h1 className="title">Anime List</h1>
                 <Link to="/home" className="home-link" aria-label="Go to Home Page">Home</Link>
             </header>
+
+                <Breadcrumbs />
+
             <section className="stats-section">
                 <div className="stat-item">
                     <h2 className="h2-list">Total Animes</h2>

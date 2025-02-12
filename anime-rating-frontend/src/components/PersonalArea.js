@@ -7,6 +7,7 @@ import axios from "axios";
 import config from "../config";
 import Footer from "./Footer";
 import ScrollToTopButton from "./ScrollToTopButton";
+import Breadcrumbs from "./Breadcrumbs";
 
 function PersonalArea() {
     const [selectedTab, setSelectedTab] = useState("toVote");
@@ -57,7 +58,7 @@ function PersonalArea() {
     };
 
     const handleAnimeClick = (animeId) => {
-        navigate(`/anime/${animeId}`);
+        navigate(`/login/personal-area/anime/${animeId}`);
     };
 
     const filteredAnime =
@@ -85,6 +86,8 @@ function PersonalArea() {
                         Home
                     </Link>
                 </header>
+
+                    <Breadcrumbs />
 
                 <main>
                     {/* User info */}

@@ -8,6 +8,7 @@ import { jwtDecode } from "jwt-decode"; // Corretto import
 import config from "../config";
 import Footer from "./Footer";
 import ScrollToTopButton from "./ScrollToTopButton";
+import Breadcrumbs from "./Breadcrumbs";
 
 function AuthPage() {
     const [loginUsername, setLoginUsername] = useState("");
@@ -29,7 +30,7 @@ function AuthPage() {
             const token = response.data.access;
             const decoded = jwtDecode(token);
             login(token, decoded.username);
-            navigate("/personal-area", { replace: true });
+            navigate("/login/personal-area", { replace: true });
         } catch (error) {
             const errorMessage = error.response?.data?.detail || "Errore durante il login. Riprova!";
             console.error("Errore nel login:", error.response?.data || error.message);
@@ -59,7 +60,7 @@ function AuthPage() {
             const token = response.data.access;
             const decoded = jwtDecode(token);
             login(token, decoded.username);
-            navigate("/personal-area", { replace: true });
+            navigate("/login/personal-area", { replace: true });
         } catch (error) {
             const errorMessage = error.response?.data?.detail || "Errore durante la registrazione. Riprova!";
             console.error("Errore nella registrazione:", error.response?.data || error.message);
@@ -77,6 +78,8 @@ function AuthPage() {
                     Home
                 </Link>
             </div>
+            
+                <Breadcrumbs />
 
             {/* Login Form */}
             <form className="auth-form" onSubmit={handleLogin}>

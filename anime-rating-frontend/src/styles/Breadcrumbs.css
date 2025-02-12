@@ -1,0 +1,33 @@
+.breadcrumbs {
+    padding: 10px;
+    background-color: #222;
+    color: white;
+    display: flex;
+    gap: 8px;
+    font-size: 14px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.breadcrumb-item {
+    color: #f8f8f8;
+    text-decoration: none;
+}
+
+.breadcrumb-item:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb-item::after {
+    content: " > ";
+    color: white;
+}
+
+.breadcrumb-item:last-child::after {
+    content: "";
+}
+
+.breadcrumb-item.active {
+    font-weight: bold;
+    color: #ffa500;
+}

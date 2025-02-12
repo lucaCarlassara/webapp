@@ -22,10 +22,10 @@ function App() {
                         <Route path="/" element={<Navigate to="/home" />} />
                         <Route path="/home" element={<HomePage />} />
                         <Route path="/auth" element={<AuthPage />} />
-                        <Route path="/personal-area" element={<PersonalArea />} />
-                        <Route path="/anime/:id" element={<AttackOnTitan />} />
+                        <Route path="/login/personal-area" element={<PersonalArea />} />
+                        <Route path="/login/personal-area/anime/:id" element={<AttackOnTitan />} />
                         <Route path="/anime-list" element={<AnimeList />} /> {/* Nuova pagina */}
-                        <Route path="/anime-vote-details/:animeId" element={<AnimeVoteDetails />} />
+                        <Route path="/anime-list/:animeId" element={<AnimeVoteDetails />} />
                     </Routes>
                 </div>
             </Router>

@@ -47,8 +47,8 @@
 }
 
 .anime-image-home {
-    width: 150px; /* Imposta una larghezza fissa per le immagini */
-    height: 200px; /* Imposta un'altezza fissa */
+    width: 166px; /* Imposta una larghezza fissa per le immagini */
+    height: 243px; /* Imposta un'altezza fissa */
     object-fit: cover; /* Mantiene le proporzioni dell'immagine */
     border-radius: 8px;
     margin-bottom: 0.5rem;
@@ -213,6 +213,7 @@ h2 {
     justify-content: center;
     align-items: center;
     gap: 10px;
+    margin-top: 20px;
 }
 
 .tutorial-button {

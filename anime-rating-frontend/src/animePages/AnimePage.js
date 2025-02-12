@@ -8,6 +8,7 @@ import { jwtDecode } from "jwt-decode";
 import config from "../config";
 import Footer from "../components/Footer";
 import ScrollToTopButton from "../components/ScrollToTopButton";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 /* Parameter Explanations */
 const parameterDescriptions = {
@@ -109,6 +110,8 @@ function AnimePage() {
                 <h1 className="title">Anime Details</h1>
                 <Link to="/" className="home-link">Home</Link>
             </div>
+
+                <Breadcrumbs />
 
             <div className="not-header">
                 {/* Anime Title */}

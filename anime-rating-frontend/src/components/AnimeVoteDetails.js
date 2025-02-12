@@ -8,6 +8,7 @@ import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 import Footer from "./Footer";
 import ScrollToTopButton from "./ScrollToTopButton";
+import Breadcrumbs from "./Breadcrumbs";
 
 // Registriamo i componenti di Chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -59,6 +60,8 @@ function AnimeVoteDetails() {
                     Back to List
                 </Link>
             </header>
+
+                <Breadcrumbs />
 
             {/* Anime Details Section */}
             <section className="anime-details-section">

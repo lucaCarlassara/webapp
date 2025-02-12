@@ -33,7 +33,7 @@ function HamburgerMenu() {
                     <ul>
                         <li onClick={() => handleNavigation("/home")}>Home</li>
                         <li onClick={() => handleNavigation("/auth")}>Login / Registrazione</li>
-                        <li onClick={() => handleNavigation("/personal-area", true)}>Area Personale</li>
+                        <li onClick={() => handleNavigation("/login/personal-area", true)}>Area Personale</li>
                         <li onClick={() => handleNavigation("/anime-list")}>Anime List</li>
                     </ul>
                 </div>

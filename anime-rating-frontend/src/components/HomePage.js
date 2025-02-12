@@ -60,7 +60,7 @@ function HomePage() {
     }, [searchTerm, animeRatings]);
 
     const handleAnimeClick = (animeId) => {
-        navigate(`/anime-vote-details/${animeId}`); // Redirect to AnimeVoteDetails page
+        navigate(`/anime-list/${animeId}`); // Redirect to AnimeVoteDetails page
     };
 
     return (
