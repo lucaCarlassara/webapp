@@ -58,7 +58,7 @@ function PersonalArea() {
     };
 
     const handleAnimeClick = (animeId) => {
-        navigate(`/login/personal-area/anime/${animeId}`);
+        navigate(`/login/personal-area/${animeId}`);
     };
 
     const filteredAnime =
