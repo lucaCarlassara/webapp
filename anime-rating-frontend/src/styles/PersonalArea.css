@@ -40,7 +40,7 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
     font-size: 16px;
-    width: 40%;
+    width: 46%;
 }
 
 .tab-button.active {
@@ -61,7 +61,7 @@
 }
 
 .search-bar input {
-    width: 80%;
+    width: 92%;
     max-width: 400px;
     padding: 10px;
     font-size: 16px;

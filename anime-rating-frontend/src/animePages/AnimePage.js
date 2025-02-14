@@ -49,21 +49,32 @@ function AnimePage() {
         const token = localStorage.getItem("token");
         if (token) {
             const userId = jwtDecode(token).user_id;
-            axios.get(`${config.backendUrl}/api/animes/${id}/ratings/${userId}/`, {
+
+            // Verifica se l'utente ha già votato
+            axios.get(`${config.backendUrl}/api/animes/${id}/has-voted/${userId}/`, {
                 headers: { Authorization: `Bearer ${token}` },
             })
                 .then(response => {
-                    setRatings(response.data);
-                    setIsEditable(false);
-                })
-                .catch(error => {
-                    if (error.response && error.response.status === 404) {
-                        setIsEditable(true);
+                    if (response.data.has_voted) {
+                        console.log("Già votato");
+
+                        // Recupera i voti solo se ha già votato
+                        axios.get(`${config.backendUrl}/api/animes/${id}/ratings/${userId}/`, {
+                            headers: { Authorization: `Bearer ${token}` },
+                        })
+                            .then(response => {
+                                setRatings(response.data);
+                                setIsEditable(false);
+                            })
+                            .catch(error => console.error("Error fetching ratings:", error));
                     } else {
-                        console.error("Error fetching ratings:", error);
+                        console.log("Non votato");
+                        setIsEditable(true);
                     }
-                });
+                })
+                .catch(error => console.error("Error checking vote status:", error));
         }
+
     }, [id]);
 
     /* Handle Rating Selection */

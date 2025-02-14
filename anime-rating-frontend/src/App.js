@@ -21,7 +21,7 @@ function App() {
                     <Routes>
                         <Route path="/" element={<Navigate to="/home" />} />
                         <Route path="/home" element={<HomePage />} />
-                        <Route path="/auth" element={<AuthPage />} />
+                        <Route path="/login" element={<AuthPage />} />
                         <Route path="/login/personal-area" element={<PersonalArea />} />
                         <Route path="/login/personal-area/:id" element={<AttackOnTitan />} />
                         <Route path="/anime-list" element={<AnimeList />} /> {/* Nuova pagina */}

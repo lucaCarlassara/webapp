@@ -15,7 +15,7 @@ function HamburgerMenu() {
     const handleNavigation = (path, requireAuth = false) => {
         if (requireAuth && !isAuthenticated) {
             alert("Devi autenticarti prima di accedere a questa sezione!");
-            navigate("/auth");
+            navigate("/login");
         } else {
             navigate(path);
         }
@@ -32,7 +32,7 @@ function HamburgerMenu() {
                 <div className="menu-content">
                     <ul>
                         <li onClick={() => handleNavigation("/home")}>Home</li>
-                        <li onClick={() => handleNavigation("/auth")}>Login / Registrazione</li>
+                        <li onClick={() => handleNavigation("/login")}>Login / Registrazione</li>
                         <li onClick={() => handleNavigation("/login/personal-area", true)}>Area Personale</li>
                         <li onClick={() => handleNavigation("/anime-list")}>Anime List</li>
                     </ul>

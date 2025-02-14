@@ -100,7 +100,7 @@ function HomePage() {
                         Logout
                     </button>
                 ) : (
-                    <Link to="/auth" className="login-link">
+                    <Link to="/login" className="login-link">
                         Login
                     </Link>
                 )}

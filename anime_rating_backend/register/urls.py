@@ -21,4 +21,5 @@ urlpatterns = [
     path('animes/<int:anime_id>/vote-count/', views.get_anime_vote_count, name='get_anime_vote_count'),
     path('animes/<int:anime_id>/vote-distribution/', get_anime_vote_distribution, name='anime_vote_distribution'),
     path('animes/<int:anime_id>/average-score/', views.get_anime_average_score, name='anime_average_score'),
+    path('animes/<int:anime_id>/has-voted/<int:user_id>/', views.has_user_voted, name='has_user_voted'),
 ]

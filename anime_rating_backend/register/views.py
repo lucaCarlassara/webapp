@@ -95,6 +95,12 @@ def get_anime_average_score(request, anime_id):
 
     except Anime.DoesNotExist:
         return Response({"error": "Anime not found"}, status=404)
+    
+@api_view(['GET'])
+def has_user_voted(request, anime_id, user_id):
+    """Verifica se l'utente ha votato un certo anime"""
+    has_voted = Rating.objects.filter(anime_id=anime_id, user_id=user_id).exists()
+    return Response({"has_voted": has_voted})
 
 @api_view(['GET'])
 def ratings_summary(request):
