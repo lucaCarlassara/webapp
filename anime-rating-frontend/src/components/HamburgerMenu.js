@@ -32,8 +32,8 @@ function HamburgerMenu() {
                 <div className="menu-content">
                     <ul>
                         <li onClick={() => handleNavigation("/home")}>Home</li>
-                        <li onClick={() => handleNavigation("/login")}>Login / Registrazione</li>
-                        <li onClick={() => handleNavigation("/login/personal-area", true)}>Area Personale</li>
+                        <li onClick={() => handleNavigation("/login")}>Login / Sign Up</li>
+                        <li onClick={() => handleNavigation("/login/personal-area", true)}>Personal Area</li>
                         <li onClick={() => handleNavigation("/anime-list")}>Anime List</li>
                     </ul>
                 </div>

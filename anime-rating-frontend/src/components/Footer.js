@@ -10,7 +10,7 @@ function Footer() {
                     <p>Email: <a href="mailto:crllcu01@gmail.com">crllcu01@gmail.com</a></p>
                     <p>Instagram: <a href="https://www.instagram.com/luca.carlassara/" target="_blank" rel="noopener noreferrer">@luca.carlassara</a></p>
                     <p> Support this project: 
-                        <a href="https://www.buymeacoffee.com/pngwaifu" target="_blank" rel="noopener noreferrer" className="buy-me-a-coffee">
+                        <a href="https://www.buymeacoffee.com/ProDeveloper" target="_blank" rel="noopener noreferrer" className="buy-me-a-coffee">
                             ☕ Buy Me a Coffee
                         </a>
                     </p>
