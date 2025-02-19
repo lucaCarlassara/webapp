@@ -266,3 +266,21 @@ h2 {
     background-color: #f0f0f0;
 }
 
+.vote-button {
+    width: 95%;
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.vote-button:hover {
+    background-color: #0056b3;
+}
+

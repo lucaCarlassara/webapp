@@ -47,20 +47,6 @@ function AnimeList() {
 
                 <Breadcrumbs />
 
-            <section className="stats-section">
-                <div className="stat-item">
-                    <h2 className="h2-list">Total Animes</h2>
-                    <p>{stats.totalAnimes}</p>
-                </div>
-                <div className="stat-item">
-                    <h2 className="h2-list">Total Users</h2>
-                    <p>{stats.totalUsers}</p>
-                </div>
-                <div className="stat-item">
-                    <h2 className="h2-list">Total Votes</h2>
-                    <p>{stats.totalVotes}</p>
-                </div>
-            </section>
             <section className="search-section">
                 <input
                     type="text"
@@ -94,6 +80,22 @@ function AnimeList() {
                     <p>No anime found.</p>
                 )}
             </section>
+
+            <section className="stats-section">
+                <div className="stat-item">
+                    <h2 className="h2-list">Total Animes</h2>
+                    <p>{stats.totalAnimes}</p>
+                </div>
+                <div className="stat-item">
+                    <h2 className="h2-list">Total Users</h2>
+                    <p>{stats.totalUsers}</p>
+                </div>
+                <div className="stat-item">
+                    <h2 className="h2-list">Total Votes</h2>
+                    <p>{stats.totalVotes}</p>
+                </div>
+            </section>
+
             <div className="container">
                 {/* ...contenuto esistente... */}
                 <Footer />

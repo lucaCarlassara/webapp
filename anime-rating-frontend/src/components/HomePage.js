@@ -63,6 +63,14 @@ function HomePage() {
         navigate(`/anime-list/${animeId}`); // Redirect to AnimeVoteDetails page
     };
 
+    const handleVoteClick = () => {
+        if (isAuthenticated) {
+            navigate("/login/personal-area");
+        } else {
+            navigate("/login");
+        }
+    };
+
     return (
         <div className="container">
             {/* Tutorial Popup */}
@@ -140,6 +148,8 @@ function HomePage() {
                     How Does It Work?
                 </button>
             </div>
+
+            <button className="vote-button" onClick={handleVoteClick}>Vote your favourite anime!</button>
 
             {/* Anime Ratings by Parameter */}
             <div className="ratings-container">
