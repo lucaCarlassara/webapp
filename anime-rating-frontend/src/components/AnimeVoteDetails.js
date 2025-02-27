@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import HamburgerMenu from "./HamburgerMenu";
 import "../styles/AnimeVoteDetails.css";
 import axios from "axios";
@@ -9,12 +9,16 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 import Footer from "./Footer";
 import ScrollToTopButton from "./ScrollToTopButton";
 import Breadcrumbs from "./Breadcrumbs";
+import { AuthContext } from "../AuthContext";
 
 // Registriamo i componenti di Chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 function AnimeVoteDetails() {
     const { animeId } = useParams();
+    const navigate = useNavigate();
+    const { isAuthenticated } = useContext(AuthContext);
+    
     const [animeDetails, setAnimeDetails] = useState({});
     const [voteCount, setVoteCount] = useState(0);
     const [voteDistribution, setVoteDistribution] = useState({});
@@ -50,6 +54,17 @@ function AnimeVoteDetails() {
             .catch((error) => console.error("Error fetching average score:", error));
     }, [animeId]);
 
+    // Funzione per gestire il click su "Vote It Yourself"
+    const handleVoteClick = () => {
+        if (isAuthenticated) {
+            navigate(`/login/personal-area/${animeId}`);
+        } else {
+            // Salva la destinazione nel localStorage e reindirizza al login
+            localStorage.setItem("redirectAfterLogin", `/login/personal-area/${animeId}`);
+            navigate("/login");
+        }
+    };
+
     return (
         <div className="anime-vote-details-container">
             {/* Header */}
@@ -61,7 +76,7 @@ function AnimeVoteDetails() {
                 </Link>
             </header>
 
-                <Breadcrumbs />
+            <Breadcrumbs />
 
             {/* Anime Details Section */}
             <section className="anime-details-section">
@@ -77,10 +92,20 @@ function AnimeVoteDetails() {
                         <div className="average-score-container">
                             <p className="average-score">Average Score:</p>
                             <p className="score">{averageScore.toFixed(2)}</p>
-                            <h2 className="anime-name" style={{ textAlign: 'center', marginTop: '10px' }}>{animeDetails.title || "Loading..."}</h2>
+                            <h2 className="anime-name" style={{ textAlign: 'center', marginTop: '10px' }}>
+                                {animeDetails.title || "Loading..."}
+                            </h2>
                         </div>
                     )}
                     <p className="vote-count">{voteCount} {voteCount === 1 ? "User" : "Users"} Voted</p>
+
+                    {/* Vote It Yourself Button */}
+                    <button
+                        className="vote-it-yourself-button"
+                        onClick={handleVoteClick}
+                    >
+                        Vote It Yourself
+                    </button>
                 </div>
             </section>
 
@@ -142,12 +167,12 @@ function AnimeVoteDetails() {
                     <p>No votable parameters available for this anime.</p>
                 )}
             </section>
+
+            {/* Footer and ScrollToTop */}
             <div className="container">
-                {/* ...contenuto esistente... */}
                 <Footer />
             </div>
             <div className="container">
-                {/* Contenuto della pagina */}
                 <ScrollToTopButton />
             </div>
         </div>
