@@ -109,7 +109,7 @@ if ENVIRONMENT == 'development':
 else:
     ALLOWED_HOSTS = [
         "webapp-573s.onrender.com",  # Dominio del backend su Render
-        "anime-ratings.netlify.app",  # Dominio del frontend su Netlify
+        "animeratinghub.com",  # Dominio del frontend su Netlify
     ]
 
 # Configurazione CORS
@@ -120,7 +120,7 @@ if ENVIRONMENT == 'development':
     ]
 else:
     CORS_ALLOWED_ORIGINS = [
-        "https://anime-ratings.netlify.app",
+        "https://animeratinghub.com",
     ]
 
 # Configurazione default auto field
