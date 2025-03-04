@@ -90,10 +90,10 @@ function HomePage() {
                             such as plot, character development, and more.
                         </p>
                         <p>
-                            To vote for an anime, register or log in and click on an anime in the personal area.
+                            To vote an anime, register or log in and click on the image of an anime in the personal area.
                         </p>
                         <p>
-                            On the home page, the average scores of all users are calculated for each parameter and for each anime.
+                            On the home page, are desplayed all the average scores of all users.
                         </p>
                     </div>
                 </div>
